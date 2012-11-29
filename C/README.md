@@ -1,5 +1,5 @@
 Take a look at `connectfour.c` and `connectfour-strange.c`.
-They only differ in line 323.
+They only differ in line 314.
 
 But they give - apart from many "abcdefghijklm" - different results:
 

@@ -26,15 +26,6 @@ struct gamesituation {
 
 struct gamesituation database[MAXIMUM_SITUATIONS];
 
-void mirrorBoard(char board[BOARD_WIDTH][BOARD_HEIGHT],
-                 char newBoard[BOARD_WIDTH][BOARD_HEIGHT]) {
-    for (int x=0; x <BOARD_WIDTH; x++) {
-        for (int y = 0; y < BOARD_HEIGHT; y++) {
-            newBoard[BOARD_WIDTH - x - 1][y] = board[x][y];
-        }
-    }
-}
-
 int isBoardFinished(char board[BOARD_WIDTH][BOARD_HEIGHT], int x, int y) {
     char color = board[x][y];
 
