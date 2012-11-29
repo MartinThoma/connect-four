@@ -1,626 +1,626 @@
-==16579== Memcheck, a memory error detector
-==16579== Copyright (C) 2002-2009, and GNU GPL'd, by Julian Seward et al.
-==16579== Using Valgrind-3.6.0.SVN-Debian and LibVEX; rerun with -h for copyright info
-==16579== Command: ./connectfour-strange
-==16579== 
---16579-- Valgrind options:
---16579--    --suppressions=/usr/lib/valgrind/debian-libc6-dbg.supp
---16579--    -v
---16579--    --track-origins=yes
---16579-- Contents of /proc/version:
---16579--   Linux version 2.6.32-45-generic-pae (buildd@aatxe) (gcc version 4.4.3 (Ubuntu 4.4.3-4ubuntu5.1) ) #99-Ubuntu SMP Tue Oct 16 16:46:26 UTC 2012
---16579-- Arch and hwcaps: X86, x86-sse1-sse2
---16579-- Page sizes: currently 4096, max supported 4096
---16579-- Valgrind library directory: /usr/lib/valgrind
---16579-- Reading syms from /lib/ld-2.11.1.so (0x4000000)
---16579-- Reading debug info from /lib/ld-2.11.1.so ..
---16579-- .. CRC mismatch (computed 483dab81 wanted 44f7a34f)
---16579-- Reading debug info from /usr/lib/debug/lib/ld-2.11.1.so ..
---16579-- Reading syms from /home/moose/Downloads/connect-four/C/connectfour-strange (0x8048000)
---16579-- Reading syms from /usr/lib/valgrind/memcheck-x86-linux (0x38000000)
---16579--    object doesn't have a dynamic symbol table
---16579-- Reading suppressions file: /usr/lib/valgrind/debian-libc6-dbg.supp
---16579-- Reading suppressions file: /usr/lib/valgrind/default.supp
---16579-- REDIR: 0x4016100 (index) redirected to 0x3803e9b3 (vgPlain_x86_linux_REDIR_FOR_index)
---16579-- Reading syms from /usr/lib/valgrind/vgpreload_core-x86-linux.so (0x401f000)
---16579-- Reading syms from /usr/lib/valgrind/vgpreload_memcheck-x86-linux.so (0x4022000)
-==16579== WARNING: new redirection conflicts with existing -- ignoring it
---16579--     new: 0x04016100 (index               ) R-> 0x04025c30 index
---16579-- REDIR: 0x40162e0 (strlen) redirected to 0x4026070 (strlen)
---16579-- Reading syms from /lib/tls/i686/cmov/libc-2.11.1.so (0x4044000)
---16579-- Reading debug info from /lib/tls/i686/cmov/libc-2.11.1.so ..
---16579-- .. CRC mismatch (computed da06e29c wanted af11acbc)
---16579-- Reading debug info from /usr/lib/debug/lib/tls/i686/cmov/libc-2.11.1.so ..
---16579-- REDIR: 0x40ba8c0 (rindex) redirected to 0x4025ae0 (rindex)
-==16579== Use of uninitialised value of size 4
-==16579==    at 0x8048A33: getNewIndex (connectfour-strange.c:231)
-==16579==    by 0x8049035: main (connectfour-strange.c:371)
-==16579==  Uninitialised value was created by a stack allocation
-==16579==    at 0x80488BC: getFirstIndex (connectfour-strange.c:207)
-==16579== 
-==16579== Use of uninitialised value of size 4
-==16579==    at 0x8048B13: getMyIndex (connectfour-strange.c:257)
-==16579==    by 0x8048B67: didBoardAlreadyOccur (connectfour-strange.c:268)
-==16579==    by 0x8048CA4: makeTurns (connectfour-strange.c:307)
-==16579==    by 0x8049055: main (connectfour-strange.c:371)
-==16579==  Uninitialised value was created by a stack allocation
-==16579==    at 0x80488BC: getFirstIndex (connectfour-strange.c:207)
-==16579== 
-==16579== Use of uninitialised value of size 4
-==16579==    at 0x8048A84: isSameBoard (connectfour-strange.c:242)
-==16579==    by 0x8048B54: getMyIndex (connectfour-strange.c:264)
-==16579==    by 0x8048B67: didBoardAlreadyOccur (connectfour-strange.c:268)
-==16579==    by 0x8048CA4: makeTurns (connectfour-strange.c:307)
-==16579==    by 0x8049055: main (connectfour-strange.c:371)
-==16579==  Uninitialised value was created by a stack allocation
-==16579==    at 0x80488BC: getFirstIndex (connectfour-strange.c:207)
-==16579== 
-==16579== Use of uninitialised value of size 4
-==16579==    at 0x8048A33: getNewIndex (connectfour-strange.c:231)
-==16579==    by 0x8048DD1: makeTurns (connectfour-strange.c:336)
-==16579==    by 0x8049055: main (connectfour-strange.c:371)
-==16579==  Uninitialised value was created by a stack allocation
-==16579==    at 0x80488BC: getFirstIndex (connectfour-strange.c:207)
-==16579== 
-==16579== Use of uninitialised value of size 4
-==16579==    at 0x8048BA2: setBoard (connectfour-strange.c:277)
-==16579==    by 0x8048DE6: makeTurns (connectfour-strange.c:337)
-==16579==    by 0x8049055: main (connectfour-strange.c:371)
-==16579==  Uninitialised value was created by a stack allocation
-==16579==    at 0x80488BC: getFirstIndex (connectfour-strange.c:207)
-==16579== 
-==16579== Use of uninitialised value of size 4
-==16579==    at 0x8048BF4: setBoard (connectfour-strange.c:280)
-==16579==    by 0x8048DE6: makeTurns (connectfour-strange.c:337)
-==16579==    by 0x8049055: main (connectfour-strange.c:371)
-==16579==  Uninitialised value was created by a stack allocation
-==16579==    at 0x80488BC: getFirstIndex (connectfour-strange.c:207)
-==16579== 
-==16579== Use of uninitialised value of size 4
-==16579==    at 0x8048B13: getMyIndex (connectfour-strange.c:257)
-==16579==    by 0x8048B67: didBoardAlreadyOccur (connectfour-strange.c:268)
-==16579==    by 0x8048CA4: makeTurns (connectfour-strange.c:307)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8049055: main (connectfour-strange.c:371)
-==16579==  Uninitialised value was created by a stack allocation
-==16579==    at 0x80488BC: getFirstIndex (connectfour-strange.c:207)
-==16579== 
-==16579== Use of uninitialised value of size 4
-==16579==    at 0x8048A33: getNewIndex (connectfour-strange.c:231)
-==16579==    by 0x8048DD1: makeTurns (connectfour-strange.c:336)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8049055: main (connectfour-strange.c:371)
-==16579==  Uninitialised value was created by a stack allocation
-==16579==    at 0x80488BC: getFirstIndex (connectfour-strange.c:207)
-==16579== 
-==16579== Use of uninitialised value of size 4
-==16579==    at 0x8048BA2: setBoard (connectfour-strange.c:277)
-==16579==    by 0x8048DE6: makeTurns (connectfour-strange.c:337)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8049055: main (connectfour-strange.c:371)
-==16579==  Uninitialised value was created by a stack allocation
-==16579==    at 0x80488BC: getFirstIndex (connectfour-strange.c:207)
-==16579== 
-==16579== Use of uninitialised value of size 4
-==16579==    at 0x8048BF4: setBoard (connectfour-strange.c:280)
-==16579==    by 0x8048DE6: makeTurns (connectfour-strange.c:337)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8049055: main (connectfour-strange.c:371)
-==16579==  Uninitialised value was created by a stack allocation
-==16579==    at 0x80488BC: getFirstIndex (connectfour-strange.c:207)
-==16579== 
-==16579== Use of uninitialised value of size 4
-==16579==    at 0x8048A33: getNewIndex (connectfour-strange.c:231)
-==16579==    by 0x8048DD1: makeTurns (connectfour-strange.c:336)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8049055: main (connectfour-strange.c:371)
-==16579==  Uninitialised value was created by a stack allocation
-==16579==    at 0x80488BC: getFirstIndex (connectfour-strange.c:207)
-==16579== 
-==16579== Use of uninitialised value of size 4
-==16579==    at 0x8048BA2: setBoard (connectfour-strange.c:277)
-==16579==    by 0x8048DE6: makeTurns (connectfour-strange.c:337)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8049055: main (connectfour-strange.c:371)
-==16579==  Uninitialised value was created by a stack allocation
-==16579==    at 0x80488BC: getFirstIndex (connectfour-strange.c:207)
-==16579== 
-==16579== Use of uninitialised value of size 4
-==16579==    at 0x8048BF4: setBoard (connectfour-strange.c:280)
-==16579==    by 0x8048DE6: makeTurns (connectfour-strange.c:337)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8049055: main (connectfour-strange.c:371)
-==16579==  Uninitialised value was created by a stack allocation
-==16579==    at 0x80488BC: getFirstIndex (connectfour-strange.c:207)
-==16579== 
-==16579== Use of uninitialised value of size 4
-==16579==    at 0x8048A33: getNewIndex (connectfour-strange.c:231)
-==16579==    by 0x8048D9C: makeTurns (connectfour-strange.c:327)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==  Uninitialised value was created by a stack allocation
-==16579==    at 0x80488BC: getFirstIndex (connectfour-strange.c:207)
-==16579== 
-==16579== Use of uninitialised value of size 4
-==16579==    at 0x8048BA2: setBoard (connectfour-strange.c:277)
-==16579==    by 0x8048DB1: makeTurns (connectfour-strange.c:328)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==  Uninitialised value was created by a stack allocation
-==16579==    at 0x80488BC: getFirstIndex (connectfour-strange.c:207)
-==16579== 
-==16579== Use of uninitialised value of size 4
-==16579==    at 0x8048BF4: setBoard (connectfour-strange.c:280)
-==16579==    by 0x8048DB1: makeTurns (connectfour-strange.c:328)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==  Uninitialised value was created by a stack allocation
-==16579==    at 0x80488BC: getFirstIndex (connectfour-strange.c:207)
-==16579== 
-==16579== Use of uninitialised value of size 4
-==16579==    at 0x8048A84: isSameBoard (connectfour-strange.c:242)
-==16579==    by 0x8048B36: getMyIndex (connectfour-strange.c:257)
-==16579==    by 0x8048B67: didBoardAlreadyOccur (connectfour-strange.c:268)
-==16579==    by 0x8048CA4: makeTurns (connectfour-strange.c:307)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==  Uninitialised value was created by a stack allocation
-==16579==    at 0x80488BC: getFirstIndex (connectfour-strange.c:207)
-==16579== 
-==16579== Use of uninitialised value of size 4
-==16579==    at 0x8048A84: isSameBoard (connectfour-strange.c:242)
-==16579==    by 0x8048B03: getMyIndex (connectfour-strange.c:260)
-==16579==    by 0x8048B67: didBoardAlreadyOccur (connectfour-strange.c:268)
-==16579==    by 0x8048CA4: makeTurns (connectfour-strange.c:307)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==  Uninitialised value was created by a stack allocation
-==16579==    at 0x80488BC: getFirstIndex (connectfour-strange.c:207)
-==16579== 
-==16579== Use of uninitialised value of size 4
-==16579==    at 0x8048B13: getMyIndex (connectfour-strange.c:257)
-==16579==    by 0x8048D04: makeTurns (connectfour-strange.c:313)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==  Uninitialised value was created by a stack allocation
-==16579==    at 0x80488BC: getFirstIndex (connectfour-strange.c:207)
-==16579== 
-==16579== Use of uninitialised value of size 4
-==16579==    at 0x8048A84: isSameBoard (connectfour-strange.c:242)
-==16579==    by 0x8048B54: getMyIndex (connectfour-strange.c:264)
-==16579==    by 0x8048D04: makeTurns (connectfour-strange.c:313)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==  Uninitialised value was created by a stack allocation
-==16579==    at 0x80488BC: getFirstIndex (connectfour-strange.c:207)
-==16579== 
-==16579== Conditional jump or move depends on uninitialised value(s)
-==16579==    at 0x8048B6F: didBoardAlreadyOccur (connectfour-strange.c:269)
-==16579==    by 0x8048CA4: makeTurns (connectfour-strange.c:307)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==  Uninitialised value was created by a stack allocation
-==16579==    at 0x80488BC: getFirstIndex (connectfour-strange.c:207)
-==16579== 
-==16579== Use of uninitialised value of size 4
-==16579==    at 0x8048A84: isSameBoard (connectfour-strange.c:242)
-==16579==    by 0x8048B36: getMyIndex (connectfour-strange.c:257)
-==16579==    by 0x8048D04: makeTurns (connectfour-strange.c:313)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==  Uninitialised value was created by a stack allocation
-==16579==    at 0x80488BC: getFirstIndex (connectfour-strange.c:207)
-==16579== 
-==16579== Use of uninitialised value of size 4
-==16579==    at 0x8048A84: isSameBoard (connectfour-strange.c:242)
-==16579==    by 0x8048B03: getMyIndex (connectfour-strange.c:260)
-==16579==    by 0x8048D04: makeTurns (connectfour-strange.c:313)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==  Uninitialised value was created by a stack allocation
-==16579==    at 0x80488BC: getFirstIndex (connectfour-strange.c:207)
-==16579== 
---16579-- REDIR: 0x40ba5a0 (__GI_strlen) redirected to 0x4026050 (__GI_strlen)
---16579-- REDIR: 0x40bd060 (strchrnul) redirected to 0x4027510 (strchrnul)
---16579-- REDIR: 0x40b6c10 (free) redirected to 0x4024ab5 (free)
+==17309== Memcheck, a memory error detector
+==17309== Copyright (C) 2002-2009, and GNU GPL'd, by Julian Seward et al.
+==17309== Using Valgrind-3.6.0.SVN-Debian and LibVEX; rerun with -h for copyright info
+==17309== Command: ./connectfour-strange
+==17309== 
+--17309-- Valgrind options:
+--17309--    --suppressions=/usr/lib/valgrind/debian-libc6-dbg.supp
+--17309--    -v
+--17309--    --track-origins=yes
+--17309-- Contents of /proc/version:
+--17309--   Linux version 2.6.32-45-generic-pae (buildd@aatxe) (gcc version 4.4.3 (Ubuntu 4.4.3-4ubuntu5.1) ) #99-Ubuntu SMP Tue Oct 16 16:46:26 UTC 2012
+--17309-- Arch and hwcaps: X86, x86-sse1-sse2
+--17309-- Page sizes: currently 4096, max supported 4096
+--17309-- Valgrind library directory: /usr/lib/valgrind
+--17309-- Reading syms from /lib/ld-2.11.1.so (0x4000000)
+--17309-- Reading debug info from /lib/ld-2.11.1.so ..
+--17309-- .. CRC mismatch (computed 483dab81 wanted 44f7a34f)
+--17309-- Reading debug info from /usr/lib/debug/lib/ld-2.11.1.so ..
+--17309-- Reading syms from /home/moose/Downloads/connect-four/C/connectfour-strange (0x8048000)
+--17309-- Reading syms from /usr/lib/valgrind/memcheck-x86-linux (0x38000000)
+--17309--    object doesn't have a dynamic symbol table
+--17309-- Reading suppressions file: /usr/lib/valgrind/debian-libc6-dbg.supp
+--17309-- Reading suppressions file: /usr/lib/valgrind/default.supp
+--17309-- REDIR: 0x4016100 (index) redirected to 0x3803e9b3 (vgPlain_x86_linux_REDIR_FOR_index)
+--17309-- Reading syms from /usr/lib/valgrind/vgpreload_core-x86-linux.so (0x401f000)
+--17309-- Reading syms from /usr/lib/valgrind/vgpreload_memcheck-x86-linux.so (0x4022000)
+==17309== WARNING: new redirection conflicts with existing -- ignoring it
+--17309--     new: 0x04016100 (index               ) R-> 0x04025c30 index
+--17309-- REDIR: 0x40162e0 (strlen) redirected to 0x4026070 (strlen)
+--17309-- Reading syms from /lib/tls/i686/cmov/libc-2.11.1.so (0x4044000)
+--17309-- Reading debug info from /lib/tls/i686/cmov/libc-2.11.1.so ..
+--17309-- .. CRC mismatch (computed da06e29c wanted af11acbc)
+--17309-- Reading debug info from /usr/lib/debug/lib/tls/i686/cmov/libc-2.11.1.so ..
+--17309-- REDIR: 0x40ba8c0 (rindex) redirected to 0x4025ae0 (rindex)
+==17309== Use of uninitialised value of size 4
+==17309==    at 0x8048A33: getNewIndex (connectfour-strange.c:231)
+==17309==    by 0x8049035: main (connectfour-strange.c:371)
+==17309==  Uninitialised value was created by a stack allocation
+==17309==    at 0x80488BC: getFirstIndex (connectfour-strange.c:207)
+==17309== 
+==17309== Use of uninitialised value of size 4
+==17309==    at 0x8048B13: getMyIndex (connectfour-strange.c:257)
+==17309==    by 0x8048B67: didBoardAlreadyOccur (connectfour-strange.c:268)
+==17309==    by 0x8048CA4: makeTurns (connectfour-strange.c:307)
+==17309==    by 0x8049055: main (connectfour-strange.c:371)
+==17309==  Uninitialised value was created by a stack allocation
+==17309==    at 0x80488BC: getFirstIndex (connectfour-strange.c:207)
+==17309== 
+==17309== Use of uninitialised value of size 4
+==17309==    at 0x8048A84: isSameBoard (connectfour-strange.c:242)
+==17309==    by 0x8048B54: getMyIndex (connectfour-strange.c:264)
+==17309==    by 0x8048B67: didBoardAlreadyOccur (connectfour-strange.c:268)
+==17309==    by 0x8048CA4: makeTurns (connectfour-strange.c:307)
+==17309==    by 0x8049055: main (connectfour-strange.c:371)
+==17309==  Uninitialised value was created by a stack allocation
+==17309==    at 0x80488BC: getFirstIndex (connectfour-strange.c:207)
+==17309== 
+==17309== Use of uninitialised value of size 4
+==17309==    at 0x8048A33: getNewIndex (connectfour-strange.c:231)
+==17309==    by 0x8048DD1: makeTurns (connectfour-strange.c:336)
+==17309==    by 0x8049055: main (connectfour-strange.c:371)
+==17309==  Uninitialised value was created by a stack allocation
+==17309==    at 0x80488BC: getFirstIndex (connectfour-strange.c:207)
+==17309== 
+==17309== Use of uninitialised value of size 4
+==17309==    at 0x8048BA2: setBoard (connectfour-strange.c:277)
+==17309==    by 0x8048DE6: makeTurns (connectfour-strange.c:337)
+==17309==    by 0x8049055: main (connectfour-strange.c:371)
+==17309==  Uninitialised value was created by a stack allocation
+==17309==    at 0x80488BC: getFirstIndex (connectfour-strange.c:207)
+==17309== 
+==17309== Use of uninitialised value of size 4
+==17309==    at 0x8048BF4: setBoard (connectfour-strange.c:280)
+==17309==    by 0x8048DE6: makeTurns (connectfour-strange.c:337)
+==17309==    by 0x8049055: main (connectfour-strange.c:371)
+==17309==  Uninitialised value was created by a stack allocation
+==17309==    at 0x80488BC: getFirstIndex (connectfour-strange.c:207)
+==17309== 
+==17309== Use of uninitialised value of size 4
+==17309==    at 0x8048B13: getMyIndex (connectfour-strange.c:257)
+==17309==    by 0x8048B67: didBoardAlreadyOccur (connectfour-strange.c:268)
+==17309==    by 0x8048CA4: makeTurns (connectfour-strange.c:307)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8049055: main (connectfour-strange.c:371)
+==17309==  Uninitialised value was created by a stack allocation
+==17309==    at 0x80488BC: getFirstIndex (connectfour-strange.c:207)
+==17309== 
+==17309== Use of uninitialised value of size 4
+==17309==    at 0x8048A33: getNewIndex (connectfour-strange.c:231)
+==17309==    by 0x8048DD1: makeTurns (connectfour-strange.c:336)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8049055: main (connectfour-strange.c:371)
+==17309==  Uninitialised value was created by a stack allocation
+==17309==    at 0x80488BC: getFirstIndex (connectfour-strange.c:207)
+==17309== 
+==17309== Use of uninitialised value of size 4
+==17309==    at 0x8048BA2: setBoard (connectfour-strange.c:277)
+==17309==    by 0x8048DE6: makeTurns (connectfour-strange.c:337)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8049055: main (connectfour-strange.c:371)
+==17309==  Uninitialised value was created by a stack allocation
+==17309==    at 0x80488BC: getFirstIndex (connectfour-strange.c:207)
+==17309== 
+==17309== Use of uninitialised value of size 4
+==17309==    at 0x8048BF4: setBoard (connectfour-strange.c:280)
+==17309==    by 0x8048DE6: makeTurns (connectfour-strange.c:337)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8049055: main (connectfour-strange.c:371)
+==17309==  Uninitialised value was created by a stack allocation
+==17309==    at 0x80488BC: getFirstIndex (connectfour-strange.c:207)
+==17309== 
+==17309== Use of uninitialised value of size 4
+==17309==    at 0x8048A33: getNewIndex (connectfour-strange.c:231)
+==17309==    by 0x8048DD1: makeTurns (connectfour-strange.c:336)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8049055: main (connectfour-strange.c:371)
+==17309==  Uninitialised value was created by a stack allocation
+==17309==    at 0x80488BC: getFirstIndex (connectfour-strange.c:207)
+==17309== 
+==17309== Use of uninitialised value of size 4
+==17309==    at 0x8048BA2: setBoard (connectfour-strange.c:277)
+==17309==    by 0x8048DE6: makeTurns (connectfour-strange.c:337)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8049055: main (connectfour-strange.c:371)
+==17309==  Uninitialised value was created by a stack allocation
+==17309==    at 0x80488BC: getFirstIndex (connectfour-strange.c:207)
+==17309== 
+==17309== Use of uninitialised value of size 4
+==17309==    at 0x8048BF4: setBoard (connectfour-strange.c:280)
+==17309==    by 0x8048DE6: makeTurns (connectfour-strange.c:337)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8049055: main (connectfour-strange.c:371)
+==17309==  Uninitialised value was created by a stack allocation
+==17309==    at 0x80488BC: getFirstIndex (connectfour-strange.c:207)
+==17309== 
+==17309== Use of uninitialised value of size 4
+==17309==    at 0x8048A33: getNewIndex (connectfour-strange.c:231)
+==17309==    by 0x8048D9C: makeTurns (connectfour-strange.c:327)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==  Uninitialised value was created by a stack allocation
+==17309==    at 0x80488BC: getFirstIndex (connectfour-strange.c:207)
+==17309== 
+==17309== Use of uninitialised value of size 4
+==17309==    at 0x8048BA2: setBoard (connectfour-strange.c:277)
+==17309==    by 0x8048DB1: makeTurns (connectfour-strange.c:328)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==  Uninitialised value was created by a stack allocation
+==17309==    at 0x80488BC: getFirstIndex (connectfour-strange.c:207)
+==17309== 
+==17309== Use of uninitialised value of size 4
+==17309==    at 0x8048BF4: setBoard (connectfour-strange.c:280)
+==17309==    by 0x8048DB1: makeTurns (connectfour-strange.c:328)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==  Uninitialised value was created by a stack allocation
+==17309==    at 0x80488BC: getFirstIndex (connectfour-strange.c:207)
+==17309== 
+==17309== Use of uninitialised value of size 4
+==17309==    at 0x8048A84: isSameBoard (connectfour-strange.c:242)
+==17309==    by 0x8048B36: getMyIndex (connectfour-strange.c:257)
+==17309==    by 0x8048B67: didBoardAlreadyOccur (connectfour-strange.c:268)
+==17309==    by 0x8048CA4: makeTurns (connectfour-strange.c:307)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==  Uninitialised value was created by a stack allocation
+==17309==    at 0x80488BC: getFirstIndex (connectfour-strange.c:207)
+==17309== 
+==17309== Use of uninitialised value of size 4
+==17309==    at 0x8048A84: isSameBoard (connectfour-strange.c:242)
+==17309==    by 0x8048B03: getMyIndex (connectfour-strange.c:260)
+==17309==    by 0x8048B67: didBoardAlreadyOccur (connectfour-strange.c:268)
+==17309==    by 0x8048CA4: makeTurns (connectfour-strange.c:307)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==  Uninitialised value was created by a stack allocation
+==17309==    at 0x80488BC: getFirstIndex (connectfour-strange.c:207)
+==17309== 
+==17309== Use of uninitialised value of size 4
+==17309==    at 0x8048B13: getMyIndex (connectfour-strange.c:257)
+==17309==    by 0x8048D04: makeTurns (connectfour-strange.c:313)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==  Uninitialised value was created by a stack allocation
+==17309==    at 0x80488BC: getFirstIndex (connectfour-strange.c:207)
+==17309== 
+==17309== Use of uninitialised value of size 4
+==17309==    at 0x8048A84: isSameBoard (connectfour-strange.c:242)
+==17309==    by 0x8048B54: getMyIndex (connectfour-strange.c:264)
+==17309==    by 0x8048D04: makeTurns (connectfour-strange.c:313)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==  Uninitialised value was created by a stack allocation
+==17309==    at 0x80488BC: getFirstIndex (connectfour-strange.c:207)
+==17309== 
+==17309== Conditional jump or move depends on uninitialised value(s)
+==17309==    at 0x8048B6F: didBoardAlreadyOccur (connectfour-strange.c:269)
+==17309==    by 0x8048CA4: makeTurns (connectfour-strange.c:307)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==  Uninitialised value was created by a stack allocation
+==17309==    at 0x80488BC: getFirstIndex (connectfour-strange.c:207)
+==17309== 
+==17309== Use of uninitialised value of size 4
+==17309==    at 0x8048A84: isSameBoard (connectfour-strange.c:242)
+==17309==    by 0x8048B36: getMyIndex (connectfour-strange.c:257)
+==17309==    by 0x8048D04: makeTurns (connectfour-strange.c:313)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==  Uninitialised value was created by a stack allocation
+==17309==    at 0x80488BC: getFirstIndex (connectfour-strange.c:207)
+==17309== 
+==17309== Use of uninitialised value of size 4
+==17309==    at 0x8048A84: isSameBoard (connectfour-strange.c:242)
+==17309==    by 0x8048B03: getMyIndex (connectfour-strange.c:260)
+==17309==    by 0x8048D04: makeTurns (connectfour-strange.c:313)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==  Uninitialised value was created by a stack allocation
+==17309==    at 0x80488BC: getFirstIndex (connectfour-strange.c:207)
+==17309== 
+--17309-- REDIR: 0x40ba5a0 (__GI_strlen) redirected to 0x4026050 (__GI_strlen)
+--17309-- REDIR: 0x40bd060 (strchrnul) redirected to 0x4027510 (strchrnul)
+--17309-- REDIR: 0x40b6c10 (free) redirected to 0x4024ab5 (free)
 ########################Finish:
 Maximum of 2000 reached
 alreadyCounter: 59
-==16579== 
-==16579== HEAP SUMMARY:
-==16579==     in use at exit: 0 bytes in 0 blocks
-==16579==   total heap usage: 0 allocs, 0 frees, 0 bytes allocated
-==16579== 
-==16579== All heap blocks were freed -- no leaks are possible
-==16579== 
-==16579== ERROR SUMMARY: 8189212 errors from 23 contexts (suppressed: 12 from 7)
-==16579== 
-==16579== 1 errors in context 1 of 23:
-==16579== Use of uninitialised value of size 4
-==16579==    at 0x8048BA2: setBoard (connectfour-strange.c:277)
-==16579==    by 0x8048DE6: makeTurns (connectfour-strange.c:337)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8049055: main (connectfour-strange.c:371)
-==16579==  Uninitialised value was created by a stack allocation
-==16579==    at 0x80488BC: getFirstIndex (connectfour-strange.c:207)
-==16579== 
-==16579== 
-==16579== 1 errors in context 2 of 23:
-==16579== Use of uninitialised value of size 4
-==16579==    at 0x8048A33: getNewIndex (connectfour-strange.c:231)
-==16579==    by 0x8048DD1: makeTurns (connectfour-strange.c:336)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8049055: main (connectfour-strange.c:371)
-==16579==  Uninitialised value was created by a stack allocation
-==16579==    at 0x80488BC: getFirstIndex (connectfour-strange.c:207)
-==16579== 
-==16579== 
-==16579== 1 errors in context 3 of 23:
-==16579== Use of uninitialised value of size 4
-==16579==    at 0x8048BA2: setBoard (connectfour-strange.c:277)
-==16579==    by 0x8048DE6: makeTurns (connectfour-strange.c:337)
-==16579==    by 0x8049055: main (connectfour-strange.c:371)
-==16579==  Uninitialised value was created by a stack allocation
-==16579==    at 0x80488BC: getFirstIndex (connectfour-strange.c:207)
-==16579== 
-==16579== 
-==16579== 1 errors in context 4 of 23:
-==16579== Use of uninitialised value of size 4
-==16579==    at 0x8048A33: getNewIndex (connectfour-strange.c:231)
-==16579==    by 0x8048DD1: makeTurns (connectfour-strange.c:336)
-==16579==    by 0x8049055: main (connectfour-strange.c:371)
-==16579==  Uninitialised value was created by a stack allocation
-==16579==    at 0x80488BC: getFirstIndex (connectfour-strange.c:207)
-==16579== 
-==16579== 
-==16579== 1 errors in context 5 of 23:
-==16579== Use of uninitialised value of size 4
-==16579==    at 0x8048B13: getMyIndex (connectfour-strange.c:257)
-==16579==    by 0x8048B67: didBoardAlreadyOccur (connectfour-strange.c:268)
-==16579==    by 0x8048CA4: makeTurns (connectfour-strange.c:307)
-==16579==    by 0x8049055: main (connectfour-strange.c:371)
-==16579==  Uninitialised value was created by a stack allocation
-==16579==    at 0x80488BC: getFirstIndex (connectfour-strange.c:207)
-==16579== 
-==16579== 
-==16579== 1 errors in context 6 of 23:
-==16579== Use of uninitialised value of size 4
-==16579==    at 0x8048A33: getNewIndex (connectfour-strange.c:231)
-==16579==    by 0x8049035: main (connectfour-strange.c:371)
-==16579==  Uninitialised value was created by a stack allocation
-==16579==    at 0x80488BC: getFirstIndex (connectfour-strange.c:207)
-==16579== 
-==16579== 
-==16579== 42 errors in context 7 of 23:
-==16579== Use of uninitialised value of size 4
-==16579==    at 0x8048A84: isSameBoard (connectfour-strange.c:242)
-==16579==    by 0x8048B54: getMyIndex (connectfour-strange.c:264)
-==16579==    by 0x8048D04: makeTurns (connectfour-strange.c:313)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==  Uninitialised value was created by a stack allocation
-==16579==    at 0x80488BC: getFirstIndex (connectfour-strange.c:207)
-==16579== 
-==16579== 
-==16579== 42 errors in context 8 of 23:
-==16579== Use of uninitialised value of size 4
-==16579==    at 0x8048BF4: setBoard (connectfour-strange.c:280)
-==16579==    by 0x8048DE6: makeTurns (connectfour-strange.c:337)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8049055: main (connectfour-strange.c:371)
-==16579==  Uninitialised value was created by a stack allocation
-==16579==    at 0x80488BC: getFirstIndex (connectfour-strange.c:207)
-==16579== 
-==16579== 
-==16579== 42 errors in context 9 of 23:
-==16579== Use of uninitialised value of size 4
-==16579==    at 0x8048BF4: setBoard (connectfour-strange.c:280)
-==16579==    by 0x8048DE6: makeTurns (connectfour-strange.c:337)
-==16579==    by 0x8049055: main (connectfour-strange.c:371)
-==16579==  Uninitialised value was created by a stack allocation
-==16579==    at 0x80488BC: getFirstIndex (connectfour-strange.c:207)
-==16579== 
-==16579== 
-==16579== 54 errors in context 10 of 23:
-==16579== Conditional jump or move depends on uninitialised value(s)
-==16579==    at 0x8048B6F: didBoardAlreadyOccur (connectfour-strange.c:269)
-==16579==    by 0x8048CA4: makeTurns (connectfour-strange.c:307)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==  Uninitialised value was created by a stack allocation
-==16579==    at 0x80488BC: getFirstIndex (connectfour-strange.c:207)
-==16579== 
-==16579== 
-==16579== 524 errors in context 11 of 23:
-==16579== Use of uninitialised value of size 4
-==16579==    at 0x8048BA2: setBoard (connectfour-strange.c:277)
-==16579==    by 0x8048DB1: makeTurns (connectfour-strange.c:328)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==  Uninitialised value was created by a stack allocation
-==16579==    at 0x80488BC: getFirstIndex (connectfour-strange.c:207)
-==16579== 
-==16579== 
-==16579== 1473 errors in context 12 of 23:
-==16579== Use of uninitialised value of size 4
-==16579==    at 0x8048BA2: setBoard (connectfour-strange.c:277)
-==16579==    by 0x8048DE6: makeTurns (connectfour-strange.c:337)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8049055: main (connectfour-strange.c:371)
-==16579==  Uninitialised value was created by a stack allocation
-==16579==    at 0x80488BC: getFirstIndex (connectfour-strange.c:207)
-==16579== 
-==16579== 
-==16579== 2005 errors in context 13 of 23:
-==16579== Use of uninitialised value of size 4
-==16579==    at 0x8048A84: isSameBoard (connectfour-strange.c:242)
-==16579==    by 0x8048B54: getMyIndex (connectfour-strange.c:264)
-==16579==    by 0x8048B67: didBoardAlreadyOccur (connectfour-strange.c:268)
-==16579==    by 0x8048CA4: makeTurns (connectfour-strange.c:307)
-==16579==    by 0x8049055: main (connectfour-strange.c:371)
-==16579==  Uninitialised value was created by a stack allocation
-==16579==    at 0x80488BC: getFirstIndex (connectfour-strange.c:207)
-==16579== 
-==16579== 
-==16579== 18751 errors in context 14 of 23:
-==16579== Use of uninitialised value of size 4
-==16579==    at 0x8048B13: getMyIndex (connectfour-strange.c:257)
-==16579==    by 0x8048D04: makeTurns (connectfour-strange.c:313)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==  Uninitialised value was created by a stack allocation
-==16579==    at 0x80488BC: getFirstIndex (connectfour-strange.c:207)
-==16579== 
-==16579== 
-==16579== 22008 errors in context 15 of 23:
-==16579== Use of uninitialised value of size 4
-==16579==    at 0x8048BF4: setBoard (connectfour-strange.c:280)
-==16579==    by 0x8048DB1: makeTurns (connectfour-strange.c:328)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==  Uninitialised value was created by a stack allocation
-==16579==    at 0x80488BC: getFirstIndex (connectfour-strange.c:207)
-==16579== 
-==16579== 
-==16579== 26955 errors in context 16 of 23:
-==16579== Use of uninitialised value of size 4
-==16579==    at 0x8048A33: getNewIndex (connectfour-strange.c:231)
-==16579==    by 0x8048D9C: makeTurns (connectfour-strange.c:327)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==  Uninitialised value was created by a stack allocation
-==16579==    at 0x80488BC: getFirstIndex (connectfour-strange.c:207)
-==16579== 
-==16579== 
-==16579== 61866 errors in context 17 of 23:
-==16579== Use of uninitialised value of size 4
-==16579==    at 0x8048BF4: setBoard (connectfour-strange.c:280)
-==16579==    by 0x8048DE6: makeTurns (connectfour-strange.c:337)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8049055: main (connectfour-strange.c:371)
-==16579==  Uninitialised value was created by a stack allocation
-==16579==    at 0x80488BC: getFirstIndex (connectfour-strange.c:207)
-==16579== 
-==16579== 
-==16579== 105052 errors in context 18 of 23:
-==16579== Use of uninitialised value of size 4
-==16579==    at 0x8048A33: getNewIndex (connectfour-strange.c:231)
-==16579==    by 0x8048DD1: makeTurns (connectfour-strange.c:336)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8049055: main (connectfour-strange.c:371)
-==16579==  Uninitialised value was created by a stack allocation
-==16579==    at 0x80488BC: getFirstIndex (connectfour-strange.c:207)
-==16579== 
-==16579== 
-==16579== 123839 errors in context 19 of 23:
-==16579== Use of uninitialised value of size 4
-==16579==    at 0x8048B13: getMyIndex (connectfour-strange.c:257)
-==16579==    by 0x8048B67: didBoardAlreadyOccur (connectfour-strange.c:268)
-==16579==    by 0x8048CA4: makeTurns (connectfour-strange.c:307)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8049055: main (connectfour-strange.c:371)
-==16579==  Uninitialised value was created by a stack allocation
-==16579==    at 0x80488BC: getFirstIndex (connectfour-strange.c:207)
-==16579== 
-==16579== 
-==16579== 526756 errors in context 20 of 23:
-==16579== Use of uninitialised value of size 4
-==16579==    at 0x8048A84: isSameBoard (connectfour-strange.c:242)
-==16579==    by 0x8048B03: getMyIndex (connectfour-strange.c:260)
-==16579==    by 0x8048D04: makeTurns (connectfour-strange.c:313)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==  Uninitialised value was created by a stack allocation
-==16579==    at 0x80488BC: getFirstIndex (connectfour-strange.c:207)
-==16579== 
-==16579== 
-==16579== 527555 errors in context 21 of 23:
-==16579== Use of uninitialised value of size 4
-==16579==    at 0x8048A84: isSameBoard (connectfour-strange.c:242)
-==16579==    by 0x8048B36: getMyIndex (connectfour-strange.c:257)
-==16579==    by 0x8048D04: makeTurns (connectfour-strange.c:313)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==  Uninitialised value was created by a stack allocation
-==16579==    at 0x80488BC: getFirstIndex (connectfour-strange.c:207)
-==16579== 
-==16579== 
-==16579== 3371535 errors in context 22 of 23:
-==16579== Use of uninitialised value of size 4
-==16579==    at 0x8048A84: isSameBoard (connectfour-strange.c:242)
-==16579==    by 0x8048B03: getMyIndex (connectfour-strange.c:260)
-==16579==    by 0x8048B67: didBoardAlreadyOccur (connectfour-strange.c:268)
-==16579==    by 0x8048CA4: makeTurns (connectfour-strange.c:307)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==  Uninitialised value was created by a stack allocation
-==16579==    at 0x80488BC: getFirstIndex (connectfour-strange.c:207)
-==16579== 
-==16579== 
-==16579== 3400707 errors in context 23 of 23:
-==16579== Use of uninitialised value of size 4
-==16579==    at 0x8048A84: isSameBoard (connectfour-strange.c:242)
-==16579==    by 0x8048B36: getMyIndex (connectfour-strange.c:257)
-==16579==    by 0x8048B67: didBoardAlreadyOccur (connectfour-strange.c:268)
-==16579==    by 0x8048CA4: makeTurns (connectfour-strange.c:307)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
-==16579==  Uninitialised value was created by a stack allocation
-==16579==    at 0x80488BC: getFirstIndex (connectfour-strange.c:207)
-==16579== 
---16579-- 
---16579-- used_suppression:     12 dl-hack3-cond-1
-==16579== 
-==16579== ERROR SUMMARY: 8189212 errors from 23 contexts (suppressed: 12 from 7)
+==17309== 
+==17309== HEAP SUMMARY:
+==17309==     in use at exit: 0 bytes in 0 blocks
+==17309==   total heap usage: 0 allocs, 0 frees, 0 bytes allocated
+==17309== 
+==17309== All heap blocks were freed -- no leaks are possible
+==17309== 
+==17309== ERROR SUMMARY: 8189212 errors from 23 contexts (suppressed: 12 from 7)
+==17309== 
+==17309== 1 errors in context 1 of 23:
+==17309== Use of uninitialised value of size 4
+==17309==    at 0x8048BA2: setBoard (connectfour-strange.c:277)
+==17309==    by 0x8048DE6: makeTurns (connectfour-strange.c:337)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8049055: main (connectfour-strange.c:371)
+==17309==  Uninitialised value was created by a stack allocation
+==17309==    at 0x80488BC: getFirstIndex (connectfour-strange.c:207)
+==17309== 
+==17309== 
+==17309== 1 errors in context 2 of 23:
+==17309== Use of uninitialised value of size 4
+==17309==    at 0x8048A33: getNewIndex (connectfour-strange.c:231)
+==17309==    by 0x8048DD1: makeTurns (connectfour-strange.c:336)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8049055: main (connectfour-strange.c:371)
+==17309==  Uninitialised value was created by a stack allocation
+==17309==    at 0x80488BC: getFirstIndex (connectfour-strange.c:207)
+==17309== 
+==17309== 
+==17309== 1 errors in context 3 of 23:
+==17309== Use of uninitialised value of size 4
+==17309==    at 0x8048BA2: setBoard (connectfour-strange.c:277)
+==17309==    by 0x8048DE6: makeTurns (connectfour-strange.c:337)
+==17309==    by 0x8049055: main (connectfour-strange.c:371)
+==17309==  Uninitialised value was created by a stack allocation
+==17309==    at 0x80488BC: getFirstIndex (connectfour-strange.c:207)
+==17309== 
+==17309== 
+==17309== 1 errors in context 4 of 23:
+==17309== Use of uninitialised value of size 4
+==17309==    at 0x8048A33: getNewIndex (connectfour-strange.c:231)
+==17309==    by 0x8048DD1: makeTurns (connectfour-strange.c:336)
+==17309==    by 0x8049055: main (connectfour-strange.c:371)
+==17309==  Uninitialised value was created by a stack allocation
+==17309==    at 0x80488BC: getFirstIndex (connectfour-strange.c:207)
+==17309== 
+==17309== 
+==17309== 1 errors in context 5 of 23:
+==17309== Use of uninitialised value of size 4
+==17309==    at 0x8048B13: getMyIndex (connectfour-strange.c:257)
+==17309==    by 0x8048B67: didBoardAlreadyOccur (connectfour-strange.c:268)
+==17309==    by 0x8048CA4: makeTurns (connectfour-strange.c:307)
+==17309==    by 0x8049055: main (connectfour-strange.c:371)
+==17309==  Uninitialised value was created by a stack allocation
+==17309==    at 0x80488BC: getFirstIndex (connectfour-strange.c:207)
+==17309== 
+==17309== 
+==17309== 1 errors in context 6 of 23:
+==17309== Use of uninitialised value of size 4
+==17309==    at 0x8048A33: getNewIndex (connectfour-strange.c:231)
+==17309==    by 0x8049035: main (connectfour-strange.c:371)
+==17309==  Uninitialised value was created by a stack allocation
+==17309==    at 0x80488BC: getFirstIndex (connectfour-strange.c:207)
+==17309== 
+==17309== 
+==17309== 42 errors in context 7 of 23:
+==17309== Use of uninitialised value of size 4
+==17309==    at 0x8048A84: isSameBoard (connectfour-strange.c:242)
+==17309==    by 0x8048B54: getMyIndex (connectfour-strange.c:264)
+==17309==    by 0x8048D04: makeTurns (connectfour-strange.c:313)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==  Uninitialised value was created by a stack allocation
+==17309==    at 0x80488BC: getFirstIndex (connectfour-strange.c:207)
+==17309== 
+==17309== 
+==17309== 42 errors in context 8 of 23:
+==17309== Use of uninitialised value of size 4
+==17309==    at 0x8048BF4: setBoard (connectfour-strange.c:280)
+==17309==    by 0x8048DE6: makeTurns (connectfour-strange.c:337)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8049055: main (connectfour-strange.c:371)
+==17309==  Uninitialised value was created by a stack allocation
+==17309==    at 0x80488BC: getFirstIndex (connectfour-strange.c:207)
+==17309== 
+==17309== 
+==17309== 42 errors in context 9 of 23:
+==17309== Use of uninitialised value of size 4
+==17309==    at 0x8048BF4: setBoard (connectfour-strange.c:280)
+==17309==    by 0x8048DE6: makeTurns (connectfour-strange.c:337)
+==17309==    by 0x8049055: main (connectfour-strange.c:371)
+==17309==  Uninitialised value was created by a stack allocation
+==17309==    at 0x80488BC: getFirstIndex (connectfour-strange.c:207)
+==17309== 
+==17309== 
+==17309== 54 errors in context 10 of 23:
+==17309== Conditional jump or move depends on uninitialised value(s)
+==17309==    at 0x8048B6F: didBoardAlreadyOccur (connectfour-strange.c:269)
+==17309==    by 0x8048CA4: makeTurns (connectfour-strange.c:307)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==  Uninitialised value was created by a stack allocation
+==17309==    at 0x80488BC: getFirstIndex (connectfour-strange.c:207)
+==17309== 
+==17309== 
+==17309== 524 errors in context 11 of 23:
+==17309== Use of uninitialised value of size 4
+==17309==    at 0x8048BA2: setBoard (connectfour-strange.c:277)
+==17309==    by 0x8048DB1: makeTurns (connectfour-strange.c:328)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==  Uninitialised value was created by a stack allocation
+==17309==    at 0x80488BC: getFirstIndex (connectfour-strange.c:207)
+==17309== 
+==17309== 
+==17309== 1473 errors in context 12 of 23:
+==17309== Use of uninitialised value of size 4
+==17309==    at 0x8048BA2: setBoard (connectfour-strange.c:277)
+==17309==    by 0x8048DE6: makeTurns (connectfour-strange.c:337)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8049055: main (connectfour-strange.c:371)
+==17309==  Uninitialised value was created by a stack allocation
+==17309==    at 0x80488BC: getFirstIndex (connectfour-strange.c:207)
+==17309== 
+==17309== 
+==17309== 2005 errors in context 13 of 23:
+==17309== Use of uninitialised value of size 4
+==17309==    at 0x8048A84: isSameBoard (connectfour-strange.c:242)
+==17309==    by 0x8048B54: getMyIndex (connectfour-strange.c:264)
+==17309==    by 0x8048B67: didBoardAlreadyOccur (connectfour-strange.c:268)
+==17309==    by 0x8048CA4: makeTurns (connectfour-strange.c:307)
+==17309==    by 0x8049055: main (connectfour-strange.c:371)
+==17309==  Uninitialised value was created by a stack allocation
+==17309==    at 0x80488BC: getFirstIndex (connectfour-strange.c:207)
+==17309== 
+==17309== 
+==17309== 18751 errors in context 14 of 23:
+==17309== Use of uninitialised value of size 4
+==17309==    at 0x8048B13: getMyIndex (connectfour-strange.c:257)
+==17309==    by 0x8048D04: makeTurns (connectfour-strange.c:313)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==  Uninitialised value was created by a stack allocation
+==17309==    at 0x80488BC: getFirstIndex (connectfour-strange.c:207)
+==17309== 
+==17309== 
+==17309== 22008 errors in context 15 of 23:
+==17309== Use of uninitialised value of size 4
+==17309==    at 0x8048BF4: setBoard (connectfour-strange.c:280)
+==17309==    by 0x8048DB1: makeTurns (connectfour-strange.c:328)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==  Uninitialised value was created by a stack allocation
+==17309==    at 0x80488BC: getFirstIndex (connectfour-strange.c:207)
+==17309== 
+==17309== 
+==17309== 26955 errors in context 16 of 23:
+==17309== Use of uninitialised value of size 4
+==17309==    at 0x8048A33: getNewIndex (connectfour-strange.c:231)
+==17309==    by 0x8048D9C: makeTurns (connectfour-strange.c:327)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==  Uninitialised value was created by a stack allocation
+==17309==    at 0x80488BC: getFirstIndex (connectfour-strange.c:207)
+==17309== 
+==17309== 
+==17309== 61866 errors in context 17 of 23:
+==17309== Use of uninitialised value of size 4
+==17309==    at 0x8048BF4: setBoard (connectfour-strange.c:280)
+==17309==    by 0x8048DE6: makeTurns (connectfour-strange.c:337)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8049055: main (connectfour-strange.c:371)
+==17309==  Uninitialised value was created by a stack allocation
+==17309==    at 0x80488BC: getFirstIndex (connectfour-strange.c:207)
+==17309== 
+==17309== 
+==17309== 105052 errors in context 18 of 23:
+==17309== Use of uninitialised value of size 4
+==17309==    at 0x8048A33: getNewIndex (connectfour-strange.c:231)
+==17309==    by 0x8048DD1: makeTurns (connectfour-strange.c:336)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8049055: main (connectfour-strange.c:371)
+==17309==  Uninitialised value was created by a stack allocation
+==17309==    at 0x80488BC: getFirstIndex (connectfour-strange.c:207)
+==17309== 
+==17309== 
+==17309== 123839 errors in context 19 of 23:
+==17309== Use of uninitialised value of size 4
+==17309==    at 0x8048B13: getMyIndex (connectfour-strange.c:257)
+==17309==    by 0x8048B67: didBoardAlreadyOccur (connectfour-strange.c:268)
+==17309==    by 0x8048CA4: makeTurns (connectfour-strange.c:307)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8049055: main (connectfour-strange.c:371)
+==17309==  Uninitialised value was created by a stack allocation
+==17309==    at 0x80488BC: getFirstIndex (connectfour-strange.c:207)
+==17309== 
+==17309== 
+==17309== 526756 errors in context 20 of 23:
+==17309== Use of uninitialised value of size 4
+==17309==    at 0x8048A84: isSameBoard (connectfour-strange.c:242)
+==17309==    by 0x8048B03: getMyIndex (connectfour-strange.c:260)
+==17309==    by 0x8048D04: makeTurns (connectfour-strange.c:313)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==  Uninitialised value was created by a stack allocation
+==17309==    at 0x80488BC: getFirstIndex (connectfour-strange.c:207)
+==17309== 
+==17309== 
+==17309== 527555 errors in context 21 of 23:
+==17309== Use of uninitialised value of size 4
+==17309==    at 0x8048A84: isSameBoard (connectfour-strange.c:242)
+==17309==    by 0x8048B36: getMyIndex (connectfour-strange.c:257)
+==17309==    by 0x8048D04: makeTurns (connectfour-strange.c:313)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==  Uninitialised value was created by a stack allocation
+==17309==    at 0x80488BC: getFirstIndex (connectfour-strange.c:207)
+==17309== 
+==17309== 
+==17309== 3371535 errors in context 22 of 23:
+==17309== Use of uninitialised value of size 4
+==17309==    at 0x8048A84: isSameBoard (connectfour-strange.c:242)
+==17309==    by 0x8048B03: getMyIndex (connectfour-strange.c:260)
+==17309==    by 0x8048B67: didBoardAlreadyOccur (connectfour-strange.c:268)
+==17309==    by 0x8048CA4: makeTurns (connectfour-strange.c:307)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==  Uninitialised value was created by a stack allocation
+==17309==    at 0x80488BC: getFirstIndex (connectfour-strange.c:207)
+==17309== 
+==17309== 
+==17309== 3400707 errors in context 23 of 23:
+==17309== Use of uninitialised value of size 4
+==17309==    at 0x8048A84: isSameBoard (connectfour-strange.c:242)
+==17309==    by 0x8048B36: getMyIndex (connectfour-strange.c:257)
+==17309==    by 0x8048B67: didBoardAlreadyOccur (connectfour-strange.c:268)
+==17309==    by 0x8048CA4: makeTurns (connectfour-strange.c:307)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==    by 0x8048E62: makeTurns (connectfour-strange.c:345)
+==17309==  Uninitialised value was created by a stack allocation
+==17309==    at 0x80488BC: getFirstIndex (connectfour-strange.c:207)
+==17309== 
+--17309-- 
+--17309-- used_suppression:     12 dl-hack3-cond-1
+==17309== 
+==17309== ERROR SUMMARY: 8189212 errors from 23 contexts (suppressed: 12 from 7)

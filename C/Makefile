@@ -1,5 +1,5 @@
 SOURCE = connectfour
-CFLAGS= -g -W -Wall -Werror -std=c99
+CFLAGS= -g -W -Wall -Werror -std=c99 -O0
 
 make:
 	gcc $(SOURCE).c $(CFLAGS) -o $(SOURCE)
