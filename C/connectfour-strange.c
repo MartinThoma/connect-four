@@ -19,7 +19,6 @@
 
 int registeredSituations = 0;
 int alreadyCounter = 0;
-int mirroredCounter = 0;
 
 struct gamesituation {
     char board[BOARD_WIDTH][BOARD_HEIGHT];
@@ -329,9 +328,8 @@ void makeTurns(char board[BOARD_WIDTH][BOARD_HEIGHT], char currentPlayer, unsign
             if (alreadyCounter % ALREADY_COUNTER_MOD == 0) {
                 printf("did already occur: %i\n", alreadyCounter);
             }
-            // Ich war bereits in dieser Spielsituation
+            // I've already got to this situation
             insertID = getMyIndex(board);
-            //savePreviousID(insertID, lastId, column);
         } else {
             char mirrored[BOARD_WIDTH][BOARD_HEIGHT];
             for (int x = 0; x<BOARD_WIDTH; x++) {
@@ -343,19 +341,13 @@ void makeTurns(char board[BOARD_WIDTH][BOARD_HEIGHT], char currentPlayer, unsign
             if (didBoardAlreadyOccur(mirrored)) {
                 // I've already got this situation, but mirrored
                 // so take care of symmetry at this point
-                mirroredCounter++;
-                if (mirroredCounter % MIRRORED_COUNTER_MOD == 0) {
-                    printf("mirrored: %i\n", mirroredCounter);
-                }
                 insertID = getMyIndex(mirrored);
-                //savePreviousID(insertID, lastId, column);
             } else {
                 registeredSituations++;
                 if (registeredSituations == MAXIMUM_SITUATIONS) {
                     printf("########################Finish:\n");
                     printf("Maximum of %i reached\n", MAXIMUM_SITUATIONS);
                     printf("alreadyCounter: %i\n", alreadyCounter);
-                    printf("mirroredCounter: %i\n", mirroredCounter);
                     exit(10);
                 }
                 if (registeredSituations % REGISTERED_MOD == 0) {
@@ -365,7 +357,6 @@ void makeTurns(char board[BOARD_WIDTH][BOARD_HEIGHT], char currentPlayer, unsign
                 if (ABS(outcome) <= 1) { // the game is finished
                     insertID = getNewIndex(board);
                     storeToDatabase(insertID, board, TRUE, outcome);
-                    //savePreviousID(insertID, lastId, column);
                 } else {
                     // Switch players
                     if (currentPlayer == RED) {
