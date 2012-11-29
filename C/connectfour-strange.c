@@ -1,7 +1,7 @@
 #include <stdio.h>  // printf
 #include <stdlib.h> // exit
 #include <limits.h> // INT_MAX, UINT_MAX, ...
-#define MAXIMUM_SITUATIONS 20000
+#define MAXIMUM_SITUATIONS 2
 #define ALREADY_COUNTER_MOD 100000
 #define MIRRORED_COUNTER_MOD 100000
 #define REGISTERED_MOD 1
@@ -23,9 +23,6 @@ int alreadyCounter = 0;
 struct gamesituation {
     char board[BOARD_WIDTH][BOARD_HEIGHT];
     int isEmpty;
-    int winRed;
-    int winBlack;
-    int stalemate;
     int isFinished;
 };
 
@@ -287,20 +284,6 @@ void setBoard(unsigned int insertID, char board[BOARD_WIDTH][BOARD_HEIGHT]) {
     }
 }
 
-void storeToDatabase(int insertID, char board[BOARD_WIDTH][BOARD_HEIGHT], int isFinished, int outcome) {
-    setBoard(insertID, board);
-    if (isFinished) {
-        database[insertID].isFinished = isFinished;
-        if (outcome == 0) {
-            database[insertID].stalemate = TRUE;
-        } else if (outcome == 1) {
-            database[insertID].winRed = TRUE;
-        } else {
-            database[insertID].winBlack = TRUE;
-        }
-    }
-}
-
 void makeTurns(char board[BOARD_WIDTH][BOARD_HEIGHT], char currentPlayer, unsigned int lastId, int recursion) {
     (void) lastId;
     if (recursion < SHOW_RECURSION_LEVEL) {
@@ -356,7 +339,7 @@ void makeTurns(char board[BOARD_WIDTH][BOARD_HEIGHT], char currentPlayer, unsign
                 outcome = isBoardFinished(board, column, height);
                 if (ABS(outcome) <= 1) { // the game is finished
                     insertID = getNewIndex(board);
-                    storeToDatabase(insertID, board, TRUE, outcome);
+                    setBoard(insertID, board);
                 } else {
                     // Switch players
                     if (currentPlayer == RED) {
@@ -386,9 +369,6 @@ int main() {
         database[i] = x;
         database[i].isEmpty = TRUE;
         database[i].isFinished = FALSE;
-        database[i].stalemate = FALSE;
-        database[i].winRed = FALSE;
-        database[i].winBlack = FALSE;
         for (int x=0; x < BOARD_WIDTH; x++) {
             for (int y=0; y<BOARD_HEIGHT; y++) {
                 database[i].board[x][y] = EMPTY;
