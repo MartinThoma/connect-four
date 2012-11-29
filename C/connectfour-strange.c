@@ -382,6 +382,8 @@ void makeTurns(char board[BOARD_WIDTH][BOARD_HEIGHT], char currentPlayer, unsign
 
 int main() {
     for (int i = 0; i < MAXIMUM_SITUATIONS; i++) {
+        struct gamesituation x;
+        database[i] = x;
         database[i].isEmpty = TRUE;
         database[i].isFinished = FALSE;
         database[i].stalemate = FALSE;
