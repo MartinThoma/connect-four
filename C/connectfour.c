@@ -1,7 +1,7 @@
 #include <stdio.h>  // printf
 #include <stdlib.h> // exit
 #include <limits.h> // INT_MAX, UINT_MAX, ...
-#define MAXIMUM_SITUATIONS 20000
+#define MAXIMUM_SITUATIONS 2000
 #define ALREADY_COUNTER_MOD 100000
 #define MIRRORED_COUNTER_MOD 100000
 #define REGISTERED_MOD 1
