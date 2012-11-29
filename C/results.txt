@@ -1,0 +1,13 @@
+abcdefghijklm########################Finish:
+Maximum of 20000 reached
+alreadyCounter: 1547
+mirroredCounter: 0
+moose@pc07:~/Downloads/connect-four/C$ ./connectfour-strange 
+Sizeof single game: 92
+Started initialisation
+Started makeTurns
+########################Finish:
+Maximum of 20000 reached
+alreadyCounter: 1566
+mirroredCounter: 0
+
