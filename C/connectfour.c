@@ -16,7 +16,6 @@
 #define EMPTY ' '
 #define HASH_MODULO 18
 #define ABS(a) (a < 0 ? -a : a)
-#define SONDIERUNG hash2 //quadraticHashing
 
 int registeredSituations = 0;
 int alreadyCounter = 0;
@@ -227,11 +226,7 @@ unsigned int roundUpSquaredHalf(unsigned int i) {
     return ((float)i / 2.0f + 0.5f);
 }
 
-unsigned int quadraticHashing(unsigned int indexOriginal, unsigned int i) {
-    return (indexOriginal + ((unsigned int) myPow(-1, i+1)) * roundUpSquaredHalf(i)) % MAXIMUM_SITUATIONS;
-}
-
-unsigned int hash2(unsigned int indexOriginal, unsigned int i) {
+unsigned int hash(unsigned int indexOriginal, unsigned int i) {
     return (indexOriginal + i) % MAXIMUM_SITUATIONS;
 }
 
@@ -241,7 +236,7 @@ unsigned int getNewIndex(char board[BOARD_WIDTH][BOARD_HEIGHT]) {
     unsigned int indexOriginal = index;
     unsigned int i = 1;
     while (!database[index].isEmpty) {
-        index = SONDIERUNG(indexOriginal, i);
+        index = hash(indexOriginal, i);
         i++;
     }
 
@@ -267,7 +262,7 @@ unsigned int getMyIndex(char board[BOARD_WIDTH][BOARD_HEIGHT]) {
     unsigned int index = originalIndex;
     unsigned int i = 1;
     while (!database[index].isEmpty && !isSameBoard(board, database[index].board)) {
-        index = SONDIERUNG(originalIndex, i);
+        index = hash(originalIndex, i);
         i++;
         if (isSameBoard(board, database[index].board)) {
             return index;
@@ -414,8 +409,6 @@ void makeTurns(char board[BOARD_WIDTH][BOARD_HEIGHT], char currentPlayer, unsign
 }
 
 int main() {
-    printf("Sizeof single game: %i\n", sizeof(struct gamesituation));
-    //printf("maximum size of a single object: %i\n", SIZE_MAX);
     printf("Started initialisation\n");
     for (int i = 0; i < MAXIMUM_SITUATIONS; i++) {
         database[i].isEmpty = TRUE;
