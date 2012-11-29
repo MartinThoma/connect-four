@@ -8,7 +8,7 @@ connectfour:
 ```console
 [...]abcdefghijklmabcdefghijklm########################Finish:
 Maximum of 20000 reached
-alreadyCounter: 64
+alreadyCounter: 74
 ```
 
 connectfour-strange:
@@ -16,5 +16,5 @@ connectfour-strange:
 ```console
 ########################Finish:
 Maximum of 20000 reached
-alreadyCounter: 65
+alreadyCounter: 71
 ```

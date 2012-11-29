@@ -316,7 +316,7 @@ void makeTurns(char board[BOARD_WIDTH][BOARD_HEIGHT], char currentPlayer, unsign
             char mirrored[BOARD_WIDTH][BOARD_HEIGHT];
             for (int x = 0; x<BOARD_WIDTH; x++) {
                 for (int y=0; y<BOARD_HEIGHT; y++) {
-                    mirrored[x+1-BOARD_WIDTH][y] = board[x][y];
+                    mirrored[BOARD_WIDTH-x-1][y] = board[x][y];
                 }
             }
 
