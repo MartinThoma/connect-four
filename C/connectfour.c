@@ -3,7 +3,6 @@
 #include <limits.h> // INT_MAX, UINT_MAX, ...
 #define MAXIMUM_SITUATIONS 2000
 #define ALREADY_COUNTER_MOD 100000
-#define MIRRORED_COUNTER_MOD 100000
 #define REGISTERED_MOD 1
 #define BOARD_WIDTH 7
 #define BOARD_HEIGHT 6
@@ -313,50 +312,37 @@ void makeTurns(char board[BOARD_WIDTH][BOARD_HEIGHT], char currentPlayer, unsign
             // I've already got to this situation
             insertID = getMyIndex(board);
         } else {
-            char mirrored[BOARD_WIDTH][BOARD_HEIGHT];
-            for (int x = 0; x<BOARD_WIDTH; x++) {
-                for (int y=0; y<BOARD_HEIGHT; y++) {
-                    mirrored[BOARD_WIDTH-x-1][y] = board[x][y];
-                }
+            registeredSituations++;
+            if (registeredSituations == MAXIMUM_SITUATIONS) {
+                printf("########################Finish:\n");
+                printf("Maximum of %i reached\n", MAXIMUM_SITUATIONS);
+                printf("alreadyCounter: %i\n", alreadyCounter);
+                exit(10);
             }
-
-            if (didBoardAlreadyOccur(mirrored)) {
-                // I've already got this situation, but mirrored
-                // so take care of symmetry at this point
-                insertID = getMyIndex(mirrored);
+            if (registeredSituations % REGISTERED_MOD == 0) {
+                printf("abcdefghijklm");
+            }
+            outcome = isBoardFinished(board, column, height);
+            if (-1 <= outcome && outcome <= 1) { // the game is finished
+                insertID = getNewIndex(board);
+                setBoard(insertID, board);
             } else {
-                registeredSituations++;
-                if (registeredSituations == MAXIMUM_SITUATIONS) {
-                    printf("########################Finish:\n");
-                    printf("Maximum of %i reached\n", MAXIMUM_SITUATIONS);
-                    printf("alreadyCounter: %i\n", alreadyCounter);
-                    exit(10);
-                }
-                if (registeredSituations % REGISTERED_MOD == 0) {
-                    printf("abcdefghijklm");
-                }
-                outcome = isBoardFinished(board, column, height);
-                if (-1 <= outcome && outcome <= 1) { // the game is finished
-                    insertID = getNewIndex(board);
-                    setBoard(insertID, board);
+                // Switch players
+                if (currentPlayer == RED) {
+                    currentPlayer = BLACK;
                 } else {
-                    // Switch players
-                    if (currentPlayer == RED) {
-                        currentPlayer = BLACK;
-                    } else {
-                        currentPlayer = RED;
-                    }
-                    insertID = getNewIndex(board);
-                    setBoard(insertID, board);
-                    //savePreviousID(insertID, lastId, column);
-                    char copy[BOARD_WIDTH][BOARD_HEIGHT];
-                    for (int x =0; x<BOARD_WIDTH; x++) {
-                        for (int y=0; y<BOARD_HEIGHT; y++) {
-                            copy[x][y] = board[x][y];
-                        }
-                    }
-                    makeTurns(copy, currentPlayer, insertID, recursion+1);
+                    currentPlayer = RED;
                 }
+                insertID = getNewIndex(board);
+                setBoard(insertID, board);
+                //savePreviousID(insertID, lastId, column);
+                char copy[BOARD_WIDTH][BOARD_HEIGHT];
+                for (int x =0; x<BOARD_WIDTH; x++) {
+                    for (int y=0; y<BOARD_HEIGHT; y++) {
+                        copy[x][y] = board[x][y];
+                    }
+                }
+                makeTurns(copy, currentPlayer, insertID, recursion+1);
             }
         }
     }

@@ -1,5 +1,5 @@
 Take a look at `connectfour.c` and `connectfour-strange.c`.
-They only differ in line 336.
+They only differ in line 323.
 
 But they give - apart from many "abcdefghijklm" - different results:
 
@@ -8,7 +8,7 @@ connectfour:
 ```console
 [...]abcdefghijklmabcdefghijklm########################Finish:
 Maximum of 20000 reached
-alreadyCounter: 74
+alreadyCounter: 65
 ```
 
 connectfour-strange:
@@ -16,5 +16,5 @@ connectfour-strange:
 ```console
 ########################Finish:
 Maximum of 20000 reached
-alreadyCounter: 71
+alreadyCounter: 59
 ```
