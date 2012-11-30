@@ -1,7 +1,10 @@
+#define _POSIX_SOURCE // needed for signal handler
 #include <stdio.h>  // printf
 #include <stdlib.h> // exit
 #include <limits.h> // INT_MAX, UINT_MAX, ...
-#define MAXIMUM_SITUATIONS 200000
+#include <signal.h> // for signal handling
+#include <time.h> // for clock()
+#define MAXIMUM_SITUATIONS 2000000
 #define ALREADY_COUNTER_MOD (MAXIMUM_SITUATIONS/20)
 #define MIRRORED_COUNTER_MOD 1000
 #define REGISTERED_MOD 1
@@ -19,9 +22,11 @@
 #define PROBING linear //linear
 #define GET_STATUS FALSE
 
-int registeredSituations = 0;
-int alreadyCounter = 0;
-int mirroredCounter = 0;
+unsigned int registeredSituations = 0;
+unsigned int alreadyCounter = 0;
+unsigned int mirroredCounter = 0;
+unsigned long hashMissCounter = 0;
+float startTime = -1;
 
 struct gamesituation {
     char board[BOARD_WIDTH][BOARD_HEIGHT];
@@ -34,6 +39,25 @@ struct gamesituation {
 };
 
 struct gamesituation database[MAXIMUM_SITUATIONS];
+
+void giveCurrentInformation() {
+    printf("  alreadyCounter: %i\n", alreadyCounter);
+    printf("  mirroredCounter: %i\n", mirroredCounter);
+    printf("  hashMiss: %lu\n", hashMissCounter);
+}
+
+void sigint_handler(int sig) {
+    float endTime = (float)clock()/CLOCKS_PER_SEC;
+    if ((endTime - startTime) <= 2) {
+        printf("Shutting down\n");
+        exit(1);
+    }
+    startTime = (float)clock()/CLOCKS_PER_SEC;
+    printf("Received Signal\n");
+    giveCurrentInformation();
+    printf("Status: %i of %i\n\n", registeredSituations, MAXIMUM_SITUATIONS);
+    (void) sig;
+}
 
 void mirrorBoard(char board[BOARD_WIDTH][BOARD_HEIGHT],
                  char newBoard[BOARD_WIDTH][BOARD_HEIGHT]) {
@@ -229,10 +253,12 @@ unsigned int roundUpSquaredHalf(unsigned int i) {
 }
 
 unsigned int quadratic(unsigned int indexOriginal, unsigned int i) {
+    hashMissCounter++;
     return (indexOriginal + ((unsigned int) myPow(-1, i+1)) * roundUpSquaredHalf(i)) % MAXIMUM_SITUATIONS;
 }
 
 unsigned int linear(unsigned int indexOriginal, unsigned int i) {
+    hashMissCounter++;
     return (indexOriginal + i) % MAXIMUM_SITUATIONS;
 }
 
@@ -379,10 +405,7 @@ void makeTurns(char board[BOARD_WIDTH][BOARD_HEIGHT], char currentPlayer, unsign
             } else {
                 registeredSituations++;
                 if (registeredSituations == MAXIMUM_SITUATIONS) {
-                    printf("########################Finish:\n");
-                    printf("Maximum of %i reached\n", MAXIMUM_SITUATIONS);
-                    printf("alreadyCounter: %i\n", alreadyCounter);
-                    printf("mirroredCounter: %i\n", mirroredCounter);
+                    giveCurrentInformation();
                     exit(10);
                 }
                 if (registeredSituations % REGISTERED_MOD == 0) {
@@ -418,7 +441,22 @@ void makeTurns(char board[BOARD_WIDTH][BOARD_HEIGHT], char currentPlayer, unsign
 }
 
 int main() {
-    printf("Opitimization: \n");
+    /* If the user wants to quit the calculation early, give
+       the results by now */
+    void sigint_handler(int sig);
+    struct sigaction sa;
+
+    sa.sa_handler = sigint_handler;
+    sa.sa_flags = 0; // or SA_RESTART
+    sigemptyset(&sa.sa_mask);
+
+    if (sigaction(SIGINT, &sa, NULL) == -1) {
+        perror("sigaction");
+        exit(1);
+    }
+
+    /* Output characteristics of this run */
+    printf("Opitimization: O3\n");
     printf("Probing: linear\n");
     printf("Maximum: %i\n", MAXIMUM_SITUATIONS);
 
