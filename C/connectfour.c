@@ -1,8 +1,9 @@
 #include <stdio.h>  // printf
 #include <stdlib.h> // exit
 #include <limits.h> // INT_MAX, UINT_MAX, ...
-#define MAXIMUM_SITUATIONS 2000
-#define ALREADY_COUNTER_MOD 100000
+#define MAXIMUM_SITUATIONS 200000
+#define ALREADY_COUNTER_MOD (MAXIMUM_SITUATIONS/20)
+#define MIRRORED_COUNTER_MOD 1000
 #define REGISTERED_MOD 1
 #define BOARD_WIDTH 7
 #define BOARD_HEIGHT 6
@@ -14,17 +15,34 @@
 #define BLACK 'b'
 #define EMPTY ' '
 #define HASH_MODULO 18
+#define ABS(a) (a < 0 ? -a : a)
+#define PROBING linear //linear
+#define GET_STATUS FALSE
 
 int registeredSituations = 0;
 int alreadyCounter = 0;
+int mirroredCounter = 0;
 
 struct gamesituation {
     char board[BOARD_WIDTH][BOARD_HEIGHT];
+    int next[7];
     int isEmpty;
+    int winRed;
+    int winBlack;
+    int stalemate;
     int isFinished;
 };
 
 struct gamesituation database[MAXIMUM_SITUATIONS];
+
+void mirrorBoard(char board[BOARD_WIDTH][BOARD_HEIGHT],
+                 char newBoard[BOARD_WIDTH][BOARD_HEIGHT]) {
+    for (int x=0; x < BOARD_WIDTH; x++) {
+        for (int y = 0; y < BOARD_HEIGHT; y++) {
+            newBoard[BOARD_WIDTH - x - 1][y] = board[x][y];
+        }
+    }
+}
 
 int isBoardFinished(char board[BOARD_WIDTH][BOARD_HEIGHT], int x, int y) {
     char color = board[x][y];
@@ -210,7 +228,11 @@ unsigned int roundUpSquaredHalf(unsigned int i) {
     return ((float)i / 2.0f + 0.5f);
 }
 
-unsigned int hash(unsigned int indexOriginal, unsigned int i) {
+unsigned int quadratic(unsigned int indexOriginal, unsigned int i) {
+    return (indexOriginal + ((unsigned int) myPow(-1, i+1)) * roundUpSquaredHalf(i)) % MAXIMUM_SITUATIONS;
+}
+
+unsigned int linear(unsigned int indexOriginal, unsigned int i) {
     return (indexOriginal + i) % MAXIMUM_SITUATIONS;
 }
 
@@ -220,7 +242,7 @@ unsigned int getNewIndex(char board[BOARD_WIDTH][BOARD_HEIGHT]) {
     unsigned int indexOriginal = index;
     unsigned int i = 1;
     while (!database[index].isEmpty) {
-        index = hash(indexOriginal, i);
+        index = PROBING(indexOriginal, i);
         i++;
     }
 
@@ -246,7 +268,7 @@ unsigned int getMyIndex(char board[BOARD_WIDTH][BOARD_HEIGHT]) {
     unsigned int index = originalIndex;
     unsigned int i = 1;
     while (!database[index].isEmpty && !isSameBoard(board, database[index].board)) {
-        index = hash(originalIndex, i);
+        index = PROBING(originalIndex, i);
         i++;
         if (isSameBoard(board, database[index].board)) {
             return index;
@@ -264,6 +286,11 @@ int didBoardAlreadyOccur(char board[BOARD_WIDTH][BOARD_HEIGHT]) {
     }
 }
 
+void savePreviousID(unsigned int insertID, unsigned int lastId, unsigned int column) {
+    // speichere nun die ID in der vorgänger-ID
+    database[lastId].next[column] = insertID;
+}
+
 void setBoard(unsigned int insertID, char board[BOARD_WIDTH][BOARD_HEIGHT]) {
     database[insertID].isEmpty = FALSE;
     for (int x=0; x<BOARD_WIDTH; x++) {
@@ -273,11 +300,39 @@ void setBoard(unsigned int insertID, char board[BOARD_WIDTH][BOARD_HEIGHT]) {
     }
 }
 
+void printBoard(char board[BOARD_WIDTH][BOARD_HEIGHT]) {
+    for (int y=BOARD_HEIGHT-1; y>=0; y--) {
+        printf("# %i ", y+1);
+        for (int x=0; x<BOARD_WIDTH; x++) {
+            printf("%c", board[x][y]);
+        }
+        printf(" #\n");
+    }
+    printf("#   1234567 #\n");
+    printf("#############\n");
+}
+
+void storeToDatabase(int insertID, char board[BOARD_WIDTH][BOARD_HEIGHT], int isFinished, int outcome) {
+    setBoard(insertID, board);
+    if (isFinished) {
+        database[insertID].isFinished = isFinished;
+        if (outcome == 0) {
+            database[insertID].stalemate = TRUE;
+        } else if (outcome == 1) {
+            database[insertID].winRed = TRUE;
+        } else {
+            database[insertID].winBlack = TRUE;
+        }
+    }
+}
+
 void makeTurns(char board[BOARD_WIDTH][BOARD_HEIGHT], char currentPlayer, unsigned int lastId, int recursion) {
-    (void) lastId;
+    #if GET_STATUS
     if (recursion < SHOW_RECURSION_LEVEL) {
         printf("rec-level:%i\n", recursion);
     }
+    #endif
+
     unsigned int insertID;
     int outcome;
 
@@ -297,54 +352,87 @@ void makeTurns(char board[BOARD_WIDTH][BOARD_HEIGHT], char currentPlayer, unsign
 
         if (didBoardAlreadyOccur(board)) {
             alreadyCounter++;
-            if (alreadyCounter % ALREADY_COUNTER_MOD == 0) {
-                printf("did already occur: %i\n", alreadyCounter);
-            }
+            #if GET_STATUS
+                if (alreadyCounter % ALREADY_COUNTER_MOD == 0) {
+                    printf("did already occur: %i\n", alreadyCounter);
+                }
+            #endif
+
             // I've already got to this situation
             insertID = getMyIndex(board);
+            savePreviousID(insertID, lastId, column);
         } else {
-            registeredSituations++;
-            if (registeredSituations == MAXIMUM_SITUATIONS) {
-                printf("########################Finish:\n");
-                printf("Maximum of %i reached\n", MAXIMUM_SITUATIONS);
-                printf("alreadyCounter: %i\n", alreadyCounter);
-                exit(10);
-            }
-            if (registeredSituations % REGISTERED_MOD == 0) {
-                printf("abcdefghijklm");
-            }
-            outcome = isBoardFinished(board, column, height);
-            if (-1 <= outcome && outcome <= 1) { // the game is finished
-                insertID = getNewIndex(board);
-                setBoard(insertID, board);
-            } else {
-                // Switch players
-                if (currentPlayer == RED) {
-                    currentPlayer = BLACK;
-                } else {
-                    currentPlayer = RED;
-                }
-                insertID = getNewIndex(board);
-                setBoard(insertID, board);
-                char copy[BOARD_WIDTH][BOARD_HEIGHT];
-                for (int x =0; x<BOARD_WIDTH; x++) {
-                    for (int y=0; y<BOARD_HEIGHT; y++) {
-                        copy[x][y] = board[x][y];
+            char mirrored[BOARD_WIDTH][BOARD_HEIGHT];
+            mirrorBoard(board, mirrored);
+
+            if (didBoardAlreadyOccur(mirrored)) {
+                // I've already got this situation, but mirrored
+                // so take care of symmetry at this point
+                mirroredCounter++;
+                #if GET_STATUS
+                    if (mirroredCounter % MIRRORED_COUNTER_MOD == 0) {
+                        printf("mirrored: %i\n", mirroredCounter);
                     }
+                #endif
+                insertID = getMyIndex(mirrored);
+                savePreviousID(insertID, lastId, column);
+            } else {
+                registeredSituations++;
+                if (registeredSituations == MAXIMUM_SITUATIONS) {
+                    printf("########################Finish:\n");
+                    printf("Maximum of %i reached\n", MAXIMUM_SITUATIONS);
+                    printf("alreadyCounter: %i\n", alreadyCounter);
+                    printf("mirroredCounter: %i\n", mirroredCounter);
+                    exit(10);
                 }
-                makeTurns(copy, currentPlayer, insertID, recursion+1);
+                if (registeredSituations % REGISTERED_MOD == 0) {
+                    //printf("registeredSituations:\t%i\n", registeredSituations);
+                    //printf("abcdefghijklm");
+                }
+                outcome = isBoardFinished(board, column, height);
+                if (ABS(outcome) <= 1) { // the game is finished
+                    insertID = getNewIndex(board);
+                    storeToDatabase(insertID, board, TRUE, outcome);
+                    savePreviousID(insertID, lastId, column);
+                } else {
+                    // Switch players
+                    if (currentPlayer == RED) {
+                        currentPlayer = BLACK;
+                    } else {
+                        currentPlayer = RED;
+                    }
+                    insertID = getNewIndex(board);
+                    setBoard(insertID, board);
+                    savePreviousID(insertID, lastId, column);
+                    char copy[BOARD_WIDTH][BOARD_HEIGHT];
+                    for (int x =0; x<BOARD_WIDTH; x++) {
+                        for (int y=0; y<BOARD_HEIGHT; y++) {
+                            copy[x][y] = board[x][y];
+                        }
+                    }
+                    makeTurns(copy, currentPlayer, insertID, recursion+1);
+                }
             }
         }
     }
 }
 
 int main() {
+    printf("Opitimization: \n");
+    printf("Probing: linear\n");
+    printf("Maximum: %i\n", MAXIMUM_SITUATIONS);
+
+    #if GET_STATUS
+        printf("Started initialisation\n");
+    #endif
     for (int i = 0; i < MAXIMUM_SITUATIONS; i++) {
-        struct gamesituation x;
-        database[i] = x;
         database[i].isEmpty = TRUE;
         database[i].isFinished = FALSE;
+        database[i].stalemate = FALSE;
+        database[i].winRed = FALSE;
+        database[i].winBlack = FALSE;
         for (int x=0; x < BOARD_WIDTH; x++) {
+            database[i].next[x] = 0;
             for (int y=0; y<BOARD_HEIGHT; y++) {
                 database[i].board[x][y] = EMPTY;
             }
@@ -358,6 +446,12 @@ int main() {
         }
     }
 
+    #if GET_STATUS
+        printf("Started makeTurns\n");
+    #endif
+
     makeTurns(board, RED, getNewIndex(board), 0);
+    printf("Found %i Situations\n", registeredSituations);
+    printf("END\n");
     return 0;
 }
