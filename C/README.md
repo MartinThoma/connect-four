@@ -1,20 +1,9 @@
-Take a look at `connectfour.c` and `connectfour-strange.c`.
-They only differ in line 314.
-
-But they give - apart from many "abcdefghijklm" - different results:
+The error is fixed! Missing initialization of one integer caused it!
 
 connectfour:
 
 ```console
-[...]abcdefghijklmabcdefghijklm########################Finish:
-Maximum of 20000 reached
-alreadyCounter: 65
-```
-
-connectfour-strange:
-
-```console
 ########################Finish:
 Maximum of 20000 reached
-alreadyCounter: 59
+alreadyCounter: 439
 ```

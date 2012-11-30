@@ -32,7 +32,7 @@ int isBoardFinished(char board[BOARD_WIDTH][BOARD_HEIGHT], int x, int y) {
     // check left-right
     int tokensInRow = 1;
     int xTemp = x - 1;
-    while (xTemp > 0) {
+    while (xTemp >= 0) {
         if (board[xTemp][y] != color) {
             break;
         } else {
@@ -64,7 +64,7 @@ int isBoardFinished(char board[BOARD_WIDTH][BOARD_HEIGHT], int x, int y) {
     // top-down
     tokensInRow = 1;
     int yTemp = y - 1;
-    while (yTemp > 0) {
+    while (yTemp >= 0) {
 
         if (board[x][yTemp] != color) {
             break;
@@ -111,7 +111,7 @@ int isBoardFinished(char board[BOARD_WIDTH][BOARD_HEIGHT], int x, int y) {
     }
     xTemp = x - 1;
     yTemp = y - 1;
-    while (xTemp > 0 && yTemp > 0) {
+    while (xTemp >= 0 && yTemp >= 0) {
 
         if (board[xTemp][yTemp] != color) {
             break;
@@ -136,7 +136,7 @@ int isBoardFinished(char board[BOARD_WIDTH][BOARD_HEIGHT], int x, int y) {
     tokensInRow = 1;
     xTemp = x + 1;
     yTemp = y - 1;
-    while (xTemp < BOARD_WIDTH && yTemp > 0) {
+    while (xTemp < BOARD_WIDTH && yTemp >= 0) {
 
         if (board[xTemp][yTemp] != color) {
             break;
@@ -148,7 +148,7 @@ int isBoardFinished(char board[BOARD_WIDTH][BOARD_HEIGHT], int x, int y) {
     }
     xTemp = x - 1;
     yTemp = y + 1;
-    while (xTemp > 0 && yTemp < BOARD_HEIGHT) {
+    while (xTemp >= 0 && yTemp < BOARD_HEIGHT) {
         if (board[xTemp][yTemp] != color) {
             break;
         } else {
@@ -196,7 +196,7 @@ unsigned int myPow(int base, unsigned int n) {
 }
 
 unsigned int getFirstIndex(char board[BOARD_WIDTH][BOARD_HEIGHT]) {
-    unsigned int index;
+    unsigned int index = 0;
     for (int x=0; x<BOARD_WIDTH; x++) {
         for (int y=0; y<BOARD_HEIGHT; y++) {
             index += charToInt(board[x][y])*myPow(3, ((x+y*BOARD_WIDTH)%HASH_MODULO));
@@ -326,7 +326,6 @@ void makeTurns(char board[BOARD_WIDTH][BOARD_HEIGHT], char currentPlayer, unsign
                 }
                 insertID = getNewIndex(board);
                 setBoard(insertID, board);
-                //savePreviousID(insertID, lastId, column);
                 char copy[BOARD_WIDTH][BOARD_HEIGHT];
                 for (int x =0; x<BOARD_WIDTH; x++) {
                     for (int y=0; y<BOARD_HEIGHT; y++) {
