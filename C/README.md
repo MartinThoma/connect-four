@@ -81,11 +81,11 @@ Array Size
 Opitimization: O3
 Probing: linear
 Maximum: 2000000
-  alreadyCounter: 523249
+  alreadyCounter: 526262
   mirroredCounter: 41
-  hashMiss: -353227384
-Status: 1988397 of 2000000
-real	40m46.216s
-user	40m20.871s
-sys	0m7.860s
+  hashMiss: 3036219459
+
+real	63m52.766s
+user	59m56.237s
+sys	0m8.621s
 ```
