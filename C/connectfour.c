@@ -4,7 +4,7 @@
 #include <limits.h> // INT_MAX, UINT_MAX, ...
 #include <signal.h> // for signal handling
 #include <time.h> // for clock()
-#define MAXIMUM_SITUATIONS 2000000
+#define MAXIMUM_SITUATIONS 20000000
 #define ALREADY_COUNTER_MOD (MAXIMUM_SITUATIONS/20)
 #define MIRRORED_COUNTER_MOD 1000
 #define REGISTERED_MOD 1

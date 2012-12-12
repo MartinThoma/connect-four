@@ -83,9 +83,26 @@ Probing: linear
 Maximum: 2000000
   alreadyCounter: 526262
   mirroredCounter: 41
-  hashMiss: 3036219459
+  hashMiss: 3,036,219,459 (approx 3.0 * 10^9)
 
 real	63m52.766s
 user	59m56.237s
 sys	0m8.621s
+```
+
+
+```console
+Opitimization: O3
+Probing: linear
+Maximum: 20,000,000
+  alreadyCounter: 4,009,244
+  mirroredCounter: 202
+  hashMiss: 126,038,750
+Status: 15,243,706 of 20,000,000
+
+Shutting down
+
+real	125m5.717s
+user	111m35.798s
+sys	0m35.854s
 ```
