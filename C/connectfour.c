@@ -98,7 +98,7 @@ int isBoardFinished(char board[BOARD_WIDTH][BOARD_HEIGHT], int x, int y) {
         } else if (color == BLACK) {
             return -1;
         } else {
-            #error "abnormal exit\n"
+            //error "abnormal exit\n"
             exit(1);
         }
     }
