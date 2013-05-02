@@ -29,13 +29,19 @@ unsigned long hashMissCounter = 0;
 float startTime = -1;
 
 struct gamesituation {
+    /* How does the board currently look like? */
     char board[BOARD_WIDTH][BOARD_HEIGHT];
+
+    /*
+     * What are the next game situations that I can reach from this board? 
+     * The next[i] means that the player dropped the disc at column i.
+     */
     int next[7];
-    int isEmpty;
-    int winRed;
-    int winBlack;
-    int stalemate;
-    int isFinished;
+    unsigned char isEmpty;  // boolean: Is this game sitatution already filled?
+    unsigned char isFinished; // boolean: Is this game finished?
+    unsigned char stalemate; // boolean: Was this game a stalemate?
+    unsigned char winRed;   // boolean: Did red win?
+    unsigned char winBlack; // boolean: Did black win?
 };
 
 struct gamesituation database[MAXIMUM_SITUATIONS];
