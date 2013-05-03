@@ -81,8 +81,8 @@ void mirrorBoard(char board[BOARD_WIDTH][BOARD_HEIGHT],
     }
 }
 
-char hasPlayerWon(char board[BOARD_WIDTH][BOARD_HEIGHT],
-                  char color, char x, char y, char xDir, char yDir) {
+int getTokensInRow(char board[BOARD_WIDTH][BOARD_HEIGHT], char color, int x, int y,
+                   char xDir, char yDir) {
     int tokensInRow = 1;
     int xTemp = x + xDir;
     int yTemp = y + yDir;
@@ -99,20 +99,15 @@ char hasPlayerWon(char board[BOARD_WIDTH][BOARD_HEIGHT],
         yTemp += yDir;
     }
 
-    xTemp = x + xDir * (-1);
-    yTemp = y + yDir * (-1);
+    return tokensInRow;
+}
 
-    while (0 <= xTemp && xTemp < BOARD_WIDTH
-            && 0 <= yTemp && yTemp < BOARD_HEIGHT) {
-        if (board[xTemp][yTemp] != color) {
-            break;
-        } else {
-            tokensInRow++;
-        }
+char hasPlayerWon(char board[BOARD_WIDTH][BOARD_HEIGHT], int x, int y,
+                  char xDir, char yDir) {
+    char color = board[x][y];
 
-        xTemp = x + xDir * (-1);
-        yTemp = y + yDir * (-1);
-    }
+    int tokensInRow = getTokensInRow(board, color, x, y, xDir, yDir)
+                      + getTokensInRow(board, color, x, y, xDir * (-1), yDir * (-1)) - 1;
 
     if (tokensInRow >= WINNING_NR) {
         if (color == RED) {
@@ -120,7 +115,7 @@ char hasPlayerWon(char board[BOARD_WIDTH][BOARD_HEIGHT],
         } else if (color == BLACK) {
             return -1;
         } else {
-            //error "this color doesn't / shouldn't exist\n";
+            perror("this color doesn't / shouldn't exist\n");
             exit(1);
         }
     }
@@ -130,32 +125,31 @@ char hasPlayerWon(char board[BOARD_WIDTH][BOARD_HEIGHT],
 
 /* A new disc has been dropped. Check if this disc means that somebody won */
 int isBoardFinished(char board[BOARD_WIDTH][BOARD_HEIGHT], int x, int y) {
-    char color = board[x][y];
     char status;
 
     // check left-right
-    status = hasPlayerWon(board, color, x, y, 1, 0);
+    status = hasPlayerWon(board, x, y, 1, 0);
 
     if (status != 0) {
         return status;
     }
 
     // top-down
-    status = hasPlayerWon(board, color, x, y, 0, 1);
+    status = hasPlayerWon(board, x, y, 0, 1);
 
     if (status != 0) {
         return status;
     }
 
     // down-left to top-right
-    status = hasPlayerWon(board, color, x, y, 1, 1);
+    status = hasPlayerWon(board, x, y, 1, 1);
 
     if (status != 0) {
         return status;
     }
 
     // top-left to down-right
-    status = hasPlayerWon(board, color, x, y, -1, 1);
+    status = hasPlayerWon(board, x, y, -1, 1);
 
     if (status != 0) {
         return status;
