@@ -20,7 +20,7 @@
 #define HASH_MODULO 18
 #define ABS(a) (a < 0 ? -a : a)
 #define PROBING linear //linear
-#define GET_STATUS FALSE
+#define GET_STATUS TRUE
 
 unsigned int registeredSituations = 0;
 unsigned int alreadyCounter = 0;
@@ -29,19 +29,24 @@ unsigned long hashMissCounter = 0;
 float startTime = -1;
 
 struct gamesituation {
-    /* How does the board currently look like? */
+    /** How does the board currently look like? */
     char board[BOARD_WIDTH][BOARD_HEIGHT];
 
-    /*
-     * What are the next game situations that I can reach from this board? 
-     * The next[i] means that the player dropped the disc at column i.
+    /**
+     * What are the next game situations that I can reach from this 
+     * board? 
+     * The next[i] means that the player dropped the disc at column i
      */
     int next[7];
-    unsigned char isEmpty;  // boolean: Is this game sitatution already filled?
-    unsigned char isFinished; // boolean: Is this game finished?
-    unsigned char stalemate; // boolean: Was this game a stalemate?
-    unsigned char winRed;   // boolean: Did red win?
-    unsigned char winBlack; // boolean: Did black win?
+
+    /* I could use a bitfield for this ... but it would make access
+     * much more inconvenient. 
+     */
+    unsigned char isEmpty;  // Is this gamesitatution already filled?
+    unsigned char isFinished; // Is this game finished?
+    unsigned char stalemate; // Was this game a stalemate?
+    unsigned char winRed;   // Did red win?
+    unsigned char winBlack; // Did black win?
 };
 
 struct gamesituation database[MAXIMUM_SITUATIONS];
@@ -74,28 +79,35 @@ void mirrorBoard(char board[BOARD_WIDTH][BOARD_HEIGHT],
     }
 }
 
-int isBoardFinished(char board[BOARD_WIDTH][BOARD_HEIGHT], int x, int y) {
-    char color = board[x][y];
-
-    // check left-right
+char hasPlayerWon(char board[BOARD_WIDTH][BOARD_HEIGHT], 
+                  char color, char x, char y, char xDir, char yDir) {
     int tokensInRow = 1;
-    int xTemp = x - 1;
-    while (xTemp >= 0) {
-        if (board[xTemp][y] != color) {
+    int xTemp = x + xDir;
+    int yTemp = y + yDir;
+
+    while (0 <= xTemp && xTemp < BOARD_WIDTH 
+        && 0 <= yTemp && yTemp < BOARD_HEIGHT) {
+        if (board[xTemp][yTemp] != color) {
             break;
         } else {
             tokensInRow++;
         }
-        xTemp--;
+        xTemp += xDir;
+        yTemp += yDir;
     }
-    xTemp = x + 1;
-    while (xTemp < BOARD_WIDTH) {
-        if (board[xTemp][y] != color) {
+
+    xTemp = x + xDir*(-1);
+    yTemp = y + yDir*(-1);
+
+    while (0 <= xTemp && xTemp < BOARD_WIDTH 
+        && 0 <= yTemp && yTemp < BOARD_HEIGHT) {
+        if (board[xTemp][yTemp] != color) {
             break;
         } else {
             tokensInRow++;
         }
-        xTemp++;
+        xTemp = x + xDir*(-1);
+        yTemp = y + yDir*(-1);
     }
 
     if (tokensInRow >= WINNING_NR) {
@@ -104,122 +116,40 @@ int isBoardFinished(char board[BOARD_WIDTH][BOARD_HEIGHT], int x, int y) {
         } else if (color == BLACK) {
             return -1;
         } else {
-            //error "abnormal exit\n"
+            //error "this color doesn't / shouldn't exist\n";
             exit(1);
         }
     }
+    return 0;
+}
+
+/* A new disc has been dropped. Check if this disc means that somebody won */
+int isBoardFinished(char board[BOARD_WIDTH][BOARD_HEIGHT], int x, int y) {
+    char color = board[x][y];
+    char status;
+
+    // check left-right
+    status = hasPlayerWon(board, color, x, y, 1, 0);
+    if (status != 0) {
+        return status;
+    }
 
     // top-down
-    tokensInRow = 1;
-    int yTemp = y - 1;
-    while (yTemp >= 0) {
-
-        if (board[x][yTemp] != color) {
-            break;
-        } else {
-            tokensInRow++;
-        }
-        yTemp--;
-    }
-    yTemp = y + 1;
-    while (yTemp < BOARD_HEIGHT) {
-
-        if (board[x][yTemp] != color) {
-            break;
-        } else {
-            tokensInRow++;
-        }
-        yTemp++;
-    }
-
-    if (tokensInRow >= WINNING_NR) {
-        if (color == RED) {
-            return 1;
-        } else if (color == BLACK) {
-            return -1;
-        } else {
-            printf("abnormal exit2\n");
-            exit(2);
-        }
+    status = hasPlayerWon(board, color, x, y, 0, 1);
+    if (status != 0) {
+        return status;
     }
 
     // down-left to top-right
-    tokensInRow = 0;
-    xTemp = x + 1;
-    yTemp = y + 1;
-    while (xTemp < BOARD_WIDTH && yTemp < BOARD_HEIGHT) {
-
-        if (board[xTemp][yTemp] != color) {
-            break;
-        } else {
-            tokensInRow++;
-        }
-        xTemp++;
-        yTemp++;
-    }
-    xTemp = x - 1;
-    yTemp = y - 1;
-    while (xTemp >= 0 && yTemp >= 0) {
-
-        if (board[xTemp][yTemp] != color) {
-            break;
-        } else {
-            tokensInRow++;
-        }
-        xTemp--;
-        yTemp--;
-    }
-    if (tokensInRow >= WINNING_NR) {
-        if (color == RED) {
-            return 1;
-        } else if (color == BLACK) {
-            return -1;
-        } else {
-            printf("abnormal exit3\n");
-            exit(3);
-        }
+    status = hasPlayerWon(board, color, x, y, 1, 1);
+    if (status != 0) {
+        return status;
     }
 
     // top-left to down-right
-    tokensInRow = 1;
-    xTemp = x + 1;
-    yTemp = y - 1;
-    while (xTemp < BOARD_WIDTH && yTemp >= 0) {
-
-        if (board[xTemp][yTemp] != color) {
-            break;
-        } else {
-            tokensInRow++;
-        }
-        xTemp++;
-        yTemp--;
-    }
-    xTemp = x - 1;
-    yTemp = y + 1;
-    while (xTemp >= 0 && yTemp < BOARD_HEIGHT) {
-        if (board[xTemp][yTemp] != color) {
-            break;
-        } else {
-            tokensInRow++;
-        }
-        xTemp--;
-        yTemp++;
-    }
-    if (tokensInRow >= WINNING_NR) {
-        if (color == RED) {
-            return 1;
-        } else if (color == BLACK) {
-            return -1;
-        } else {
-            printf("abnormal exit4\n");
-            exit(4);
-        }
-    }
-
-    if (board[0][5] != EMPTY && board[1][5] != EMPTY && board[2][5] != EMPTY &&
-            board[3][5] != EMPTY && board[4][5] != EMPTY && board[5][5] != EMPTY &&
-            board[6][5] != EMPTY) {
-        return 0;
+    status = hasPlayerWon(board, color, x, y, -1, 1);
+    if (status != 0) {
+        return status;
     }
 
     return 100;
