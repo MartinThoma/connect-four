@@ -6,8 +6,9 @@
 #include <time.h> // for clock()
 #define MAXIMUM_SITUATIONS 20000000
 #define ALREADY_COUNTER_MOD (MAXIMUM_SITUATIONS/20)
-#define MIRRORED_COUNTER_MOD 1000
-#define REGISTERED_MOD 1
+#define MIRRORED_COUNTER_MOD -1
+#define REGISTERED_MOD 10000
+#define SHORT_OUTPUT 1
 #define BOARD_WIDTH 7
 #define BOARD_HEIGHT 6
 #define SHOW_RECURSION_LEVEL 0
@@ -19,13 +20,16 @@
 #define EMPTY ' '
 #define HASH_MODULO 18
 #define ABS(a) (a < 0 ? -a : a)
-#define PROBING linear //linear
+#define PROBING linear
 #define GET_STATUS TRUE
+#define NOT_FINISHED 100
+#define MAXIMUM_SITUATIONS_REACHED_EXIT_STATUS 2
+#include "board.c" // board operations
 
 unsigned int registeredSituations = 0;
-unsigned int alreadyCounter = 0;
 unsigned int mirroredCounter = 0;
-unsigned long hashMissCounter = 0;
+unsigned long probingCounter = 0;
+float programStartTime = -1;
 float startTime = -1;
 
 struct gamesituation {
@@ -52,9 +56,17 @@ struct gamesituation {
 struct gamesituation database[MAXIMUM_SITUATIONS];
 
 void giveCurrentInformation() {
-    printf("  alreadyCounter: %i\n", alreadyCounter);
-    printf("  mirroredCounter: %i\n", mirroredCounter);
-    printf("  hashMiss: %lu\n", hashMissCounter);
+    if(SHORT_OUTPUT) {
+        printf("%0.2f,", (float)clock() / CLOCKS_PER_SEC - programStartTime);
+        printf("%i,", registeredSituations);
+        printf("%i,", mirroredCounter);
+        printf("%lu\n", probingCounter);
+    } else {
+        printf("%0.2fs\n", (float)clock() / CLOCKS_PER_SEC - programStartTime);
+        printf("\tregisteredSituations:\t%i\n", registeredSituations);
+        printf("\tmirroredCounter: %i\n", mirroredCounter);
+        printf("\tprobingCounter: %lu\n", probingCounter);
+    }
 }
 
 void sigint_handler(int sig) {
@@ -72,23 +84,102 @@ void sigint_handler(int sig) {
     (void) sig;
 }
 
-void mirrorBoard(char board[BOARD_WIDTH][BOARD_HEIGHT],
-                 char newBoard[BOARD_WIDTH][BOARD_HEIGHT]) {
+#include "hash.c"
+
+/** The hashfunction. Tries to find a new slot */
+unsigned int getNewIndex(char board[BOARD_WIDTH][BOARD_HEIGHT]) {
+    unsigned int index = getFirstIndex(board);
+    unsigned int indexOriginal = index;
+    unsigned int i = 1;
+
+    while (!database[index].isEmpty) {
+        index = PROBING(indexOriginal, i);
+        i++;
+    }
+
+    return index;
+}
+
+/* 
+ * This function returns the index of a board that is already in
+ * the situation array. If it is not there, it returns 0.
+ */
+unsigned int getBoardIndex(char board[BOARD_WIDTH][BOARD_HEIGHT]) {
+    unsigned int originalIndex = getFirstIndex(board);
+    unsigned int index = originalIndex;
+    unsigned int i = 1;
+
+    while (!database[index].isEmpty && 
+           !isSameBoard(board, database[index].board)) {
+        index = PROBING(originalIndex, i);
+        i++;
+
+        if (isSameBoard(board, database[index].board)) {
+            return index;
+        }
+    }
+
+    // can be both: its not there and its at 0!
+    return isSameBoard(board, database[index].board); 
+}
+
+/********************************************************************
+ * Misc                                                             *
+ *******************************************************************/
+/*
+ * Checks if a given board is stored in database.
+ * @param board
+ * @return TRUE iff board is stored in database, otherwise FALSE
+ */
+int didBoardAlreadyOccur(char board[BOARD_WIDTH][BOARD_HEIGHT]) {
+    unsigned int index = getBoardIndex(board);
+
+    if (index == 0) {
+        return isSameBoard(board, database[index].board);
+    } else {
+        return TRUE;
+    }
+}
+
+void savePreviousID(unsigned int insertID, unsigned int lastId, unsigned int column) {
+    // speichere nun die ID in der vorgänger-ID
+    database[lastId].next[column] = insertID;
+}
+
+void setBoard(unsigned int insertID, char board[BOARD_WIDTH][BOARD_HEIGHT]) {
+    database[insertID].isEmpty = FALSE;
+
     for (int x = 0; x < BOARD_WIDTH; x++) {
         for (int y = 0; y < BOARD_HEIGHT; y++) {
-            newBoard[BOARD_WIDTH - x - 1][y] = board[x][y];
+            database[insertID].board[x][y] = board[x][y];
         }
     }
 }
 
-int getTokensInRow(char board[BOARD_WIDTH][BOARD_HEIGHT], char color, int x, int y,
-                   char xDir, char yDir) {
+void storeToDatabase(int insertID, char board[BOARD_WIDTH][BOARD_HEIGHT], int isFinished, int outcome) {
+    setBoard(insertID, board);
+
+    if (isFinished) {
+        database[insertID].isFinished = isFinished;
+
+        if (outcome == 0) {
+            database[insertID].stalemate = TRUE;
+        } else if (outcome == 1) {
+            database[insertID].winRed = TRUE;
+        } else {
+            database[insertID].winBlack = TRUE;
+        }
+    }
+}
+
+int getTokensInRow(char board[BOARD_WIDTH][BOARD_HEIGHT], char color,
+                   int x, int y, char xDir, char yDir) {
     int tokensInRow = 1;
     int xTemp = x + xDir;
     int yTemp = y + yDir;
 
     while (0 <= xTemp && xTemp < BOARD_WIDTH
-            && 0 <= yTemp && yTemp < BOARD_HEIGHT) {
+        && 0 <= yTemp && yTemp < BOARD_HEIGHT) {
         if (board[xTemp][yTemp] != color) {
             break;
         } else {
@@ -102,12 +193,17 @@ int getTokensInRow(char board[BOARD_WIDTH][BOARD_HEIGHT], char color, int x, int
     return tokensInRow;
 }
 
-char hasPlayerWon(char board[BOARD_WIDTH][BOARD_HEIGHT], int x, int y,
-                  char xDir, char yDir) {
+/*
+ * Check if player has won by placing a disc on (x,y). 
+ * with direction (xDir, yDir)
+ * @return 1 iff RED won, -1 iff BLACK won and 0 if nobody won
+ */
+signed char hasPlayerWon(char board[BOARD_WIDTH][BOARD_HEIGHT], 
+                  int x, int y, char xDir, char yDir) {
     char color = board[x][y];
 
     int tokensInRow = getTokensInRow(board, color, x, y, xDir, yDir)
-                      + getTokensInRow(board, color, x, y, xDir * (-1), yDir * (-1)) - 1;
+              + getTokensInRow(board, color, x, y, -xDir, -yDir) - 1;
 
     if (tokensInRow >= WINNING_NR) {
         if (color == RED) {
@@ -123,9 +219,14 @@ char hasPlayerWon(char board[BOARD_WIDTH][BOARD_HEIGHT], int x, int y,
     return 0;
 }
 
-/* A new disc has been dropped. Check if this disc means that somebody won */
-int isBoardFinished(char board[BOARD_WIDTH][BOARD_HEIGHT], int x, int y) {
-    char status;
+/* 
+ * A new disc has been dropped. Check if this disc means that 
+ * somebody won.
+ * @return 1 iff RED won, -1 iff BLACK won, otherwise NOT_FINISHED
+ */
+int isBoardFinished(char board[BOARD_WIDTH][BOARD_HEIGHT], 
+                    int x, int y) {
+    signed char status;
 
     // check left-right
     status = hasPlayerWon(board, x, y, 1, 0);
@@ -155,166 +256,21 @@ int isBoardFinished(char board[BOARD_WIDTH][BOARD_HEIGHT], int x, int y) {
         return status;
     }
 
-    return 100;
+    return NOT_FINISHED;
 }
 
-unsigned int charToInt(char x) {
-    if (x == RED) {
-        return 1;
-    } else if (x == BLACK) {
-        return 2;
-    } else {
-        return 0;
-    }
-}
 
-unsigned int myPow(int base, unsigned int n) {
-    unsigned int power = 1;
-
-    for (unsigned int i = 0; i < n; i++) {
-        power *= base;
-    }
-
-    return power;
-}
-
-unsigned int getFirstIndex(char board[BOARD_WIDTH][BOARD_HEIGHT]) {
-    unsigned int index = 0;
-
-    for (int x = 0; x < BOARD_WIDTH; x++) {
-        for (int y = 0; y < BOARD_HEIGHT; y++) {
-            index += charToInt(board[x][y]) * myPow(3, ((x + y * BOARD_WIDTH) % HASH_MODULO));
-        }
-    }
-
-    index = index % MAXIMUM_SITUATIONS;
-    return index;
-}
-
-unsigned int roundUpSquaredHalf(unsigned int i) {
-    return ((float)i / 2.0f + 0.5f);
-}
-
-unsigned int quadratic(unsigned int indexOriginal, unsigned int i) {
-    hashMissCounter++;
-    return (indexOriginal + ((unsigned int) myPow(-1, i + 1)) * roundUpSquaredHalf(i)) % MAXIMUM_SITUATIONS;
-}
-
-unsigned int linear(unsigned int indexOriginal, unsigned int i) {
-    hashMissCounter++;
-    return (indexOriginal + i) % MAXIMUM_SITUATIONS;
-}
-
-/** The hashfunction. Tries to find a new slot */
-unsigned int getNewIndex(char board[BOARD_WIDTH][BOARD_HEIGHT]) {
-    unsigned int index = getFirstIndex(board);
-    unsigned int indexOriginal = index;
-    unsigned int i = 1;
-
-    while (!database[index].isEmpty) {
-        index = PROBING(indexOriginal, i);
-        i++;
-    }
-
-    return index;
-}
-
-int isSameBoard(char a[BOARD_WIDTH][BOARD_HEIGHT], char b[BOARD_WIDTH][BOARD_HEIGHT]) {
-    for (int x = 0; x < BOARD_WIDTH; x++) {
-        for (int y = 0; y < BOARD_HEIGHT; y++) {
-            if (a[x][y] != b[x][y]) {
-                return FALSE;
-            }
-        }
-    }
-
-    return TRUE;
-}
-
-/** This function returns the index of a board that is already in
- *  the situation array. If it is not there, it returns 0.
+/*
+ * Make all possible turns that the player can make in this
+ * game situation.
  */
-unsigned int getMyIndex(char board[BOARD_WIDTH][BOARD_HEIGHT]) {
-    unsigned int originalIndex = getFirstIndex(board);
-    unsigned int index = originalIndex;
-    unsigned int i = 1;
-
-    while (!database[index].isEmpty && !isSameBoard(board, database[index].board)) {
-        index = PROBING(originalIndex, i);
-        i++;
-
-        if (isSameBoard(board, database[index].board)) {
-            return index;
+void makeTurns(char board[BOARD_WIDTH][BOARD_HEIGHT], 
+    char currentPlayer, unsigned int lastId, int recursion) {
+    #if GET_STATUS
+        if (recursion < SHOW_RECURSION_LEVEL) {
+            printf("rec-level:%i\n", recursion);
         }
-    }
-
-    return isSameBoard(board, database[index].board); // can be both: its not there and its at 0!
-}
-
-int didBoardAlreadyOccur(char board[BOARD_WIDTH][BOARD_HEIGHT]) {
-    unsigned int index = getMyIndex(board);
-
-    if (index == 0) {
-        return isSameBoard(board, database[index].board);
-    } else {
-        return TRUE;
-    }
-}
-
-void savePreviousID(unsigned int insertID, unsigned int lastId, unsigned int column) {
-    // speichere nun die ID in der vorgänger-ID
-    database[lastId].next[column] = insertID;
-}
-
-void setBoard(unsigned int insertID, char board[BOARD_WIDTH][BOARD_HEIGHT]) {
-    database[insertID].isEmpty = FALSE;
-
-    for (int x = 0; x < BOARD_WIDTH; x++) {
-        for (int y = 0; y < BOARD_HEIGHT; y++) {
-            database[insertID].board[x][y] = board[x][y];
-        }
-    }
-}
-
-void printBoard(char board[BOARD_WIDTH][BOARD_HEIGHT]) {
-    for (int y = BOARD_HEIGHT - 1; y >= 0; y--) {
-        printf("# %i ", y + 1);
-
-        for (int x = 0; x < BOARD_WIDTH; x++) {
-            printf("%c", board[x][y]);
-        }
-
-        printf(" #\n");
-    }
-
-    printf("#   1234567 #\n");
-    printf("#############\n");
-}
-
-void storeToDatabase(int insertID, char board[BOARD_WIDTH][BOARD_HEIGHT], int isFinished, int outcome) {
-    setBoard(insertID, board);
-
-    if (isFinished) {
-        database[insertID].isFinished = isFinished;
-
-        if (outcome == 0) {
-            database[insertID].stalemate = TRUE;
-        } else if (outcome == 1) {
-            database[insertID].winRed = TRUE;
-        } else {
-            database[insertID].winBlack = TRUE;
-        }
-    }
-}
-
-void makeTurns(char board[BOARD_WIDTH][BOARD_HEIGHT], char currentPlayer, unsigned int lastId, int recursion) {
-#if GET_STATUS
-
-    if (recursion < SHOW_RECURSION_LEVEL) {
-        printf("rec-level:%i\n", recursion);
-    }
-
-#endif
+    #endif
 
     unsigned int insertID;
     int outcome;
@@ -323,31 +279,23 @@ void makeTurns(char board[BOARD_WIDTH][BOARD_HEIGHT], char currentPlayer, unsign
         // add to column
         int height = BOARD_HEIGHT - 1;
 
+        // the disc falls down
         while (height >= 0 && board[column][height] == EMPTY) {
             height--;
         }
-
         height++;
 
+        // this colum is full
         if (height == 6) {
             continue;
         }
 
-        // place tile
+        // place disc
         board[column][height] = currentPlayer;
 
         if (didBoardAlreadyOccur(board)) {
-            alreadyCounter++;
-#if GET_STATUS
-
-            if (alreadyCounter % ALREADY_COUNTER_MOD == 0) {
-                printf("did already occur: %i\n", alreadyCounter);
-            }
-
-#endif
-
             // I've already got to this situation
-            insertID = getMyIndex(board);
+            insertID = getBoardIndex(board);
             savePreviousID(insertID, lastId, column);
         } else {
             char mirrored[BOARD_WIDTH][BOARD_HEIGHT];
@@ -357,31 +305,30 @@ void makeTurns(char board[BOARD_WIDTH][BOARD_HEIGHT], char currentPlayer, unsign
                 // I've already got this situation, but mirrored
                 // so take care of symmetry at this point
                 mirroredCounter++;
-#if GET_STATUS
-
-                if (mirroredCounter % MIRRORED_COUNTER_MOD == 0) {
-                    printf("mirrored: %i\n", mirroredCounter);
-                }
-
-#endif
-                insertID = getMyIndex(mirrored);
+                #if GET_STATUS
+                    if (MIRRORED_COUNTER_MOD > 0 && mirroredCounter % MIRRORED_COUNTER_MOD == 0) {
+                        printf("mirrored: %i\n", mirroredCounter);
+                    }
+                #endif
+                insertID = getBoardIndex(mirrored);
                 savePreviousID(insertID, lastId, column);
             } else {
                 registeredSituations++;
 
                 if (registeredSituations == MAXIMUM_SITUATIONS) {
                     giveCurrentInformation();
-                    exit(10);
+                    exit(MAXIMUM_SITUATIONS_REACHED_EXIT_STATUS);
                 }
 
-                if (registeredSituations % REGISTERED_MOD == 0) {
-                    //printf("registeredSituations:\t%i\n", registeredSituations);
-                    //printf("abcdefghijklm");
+                if (REGISTERED_MOD > 0 &&
+                    registeredSituations % REGISTERED_MOD == 0) {
+                    giveCurrentInformation();
                 }
 
                 outcome = isBoardFinished(board, column, height);
 
-                if (ABS(outcome) <= 1) { // the game is finished
+                if (ABS(outcome) <= 1) {
+                    // the game is finished
                     insertID = getNewIndex(board);
                     storeToDatabase(insertID, board, TRUE, outcome);
                     savePreviousID(insertID, lastId, column);
@@ -404,7 +351,8 @@ void makeTurns(char board[BOARD_WIDTH][BOARD_HEIGHT], char currentPlayer, unsign
                         }
                     }
 
-                    makeTurns(copy, currentPlayer, insertID, recursion + 1);
+                    makeTurns(copy, currentPlayer, insertID, 
+                              recursion + 1);
                 }
             }
         }
@@ -412,6 +360,8 @@ void makeTurns(char board[BOARD_WIDTH][BOARD_HEIGHT], char currentPlayer, unsign
 }
 
 int main() {
+    programStartTime = (float)clock() / CLOCKS_PER_SEC;
+
     /* If the user wants to quit the calculation early, give
        the results by now */
     void sigint_handler(int sig);
@@ -431,9 +381,9 @@ int main() {
     printf("Probing: linear\n");
     printf("Maximum: %i\n", MAXIMUM_SITUATIONS);
 
-#if GET_STATUS
-    printf("Started initialisation\n");
-#endif
+    #if GET_STATUS
+        printf("Started initialisation\n");
+    #endif
 
     for (int i = 0; i < MAXIMUM_SITUATIONS; i++) {
         database[i].isEmpty = TRUE;
