@@ -32,16 +32,37 @@ unsigned int getFirstIndex(char board[BOARD_WIDTH][BOARD_HEIGHT]) {
     return index;
 }
 
+unsigned int secondHashFunction(char board[BOARD_WIDTH][BOARD_HEIGHT]) {
+    unsigned int index = 0;
+
+    for (int y = 0; y < BOARD_HEIGHT; y++) {
+        for (int x = 0; x < BOARD_WIDTH; x++) {
+            index += (2-charToInt(board[x][y])) * 
+                     myPow(3, ((x + y * BOARD_WIDTH) % HASH_MODULO));
+        }
+    }
+
+    index = index % MAXIMUM_SITUATIONS;
+    return index;
+}
+
 unsigned int roundUpSquaredHalf(unsigned int i) {
     return ((float)i / 2.0f + 0.5f);
 }
 
-unsigned int quadratic(unsigned int indexOriginal, unsigned int i) {
-    probingCounter++;
-    return (indexOriginal + ((unsigned int) myPow(-1, i + 1)) * roundUpSquaredHalf(i)) % MAXIMUM_SITUATIONS;
-}
-
-unsigned int linear(unsigned int indexOriginal, unsigned int i) {
+unsigned int linear(unsigned int indexOriginal, unsigned int i, char board[BOARD_WIDTH][BOARD_HEIGHT]) {
+    (void) board;
     probingCounter++;
     return (indexOriginal + i) % MAXIMUM_SITUATIONS;
+}
+
+unsigned int quadratic(unsigned int indexOriginal, unsigned int i, char board[BOARD_WIDTH][BOARD_HEIGHT]) {
+    (void) board;
+    probingCounter++;
+    return (indexOriginal + ((unsigned int) myPow(-1, i + 1)) * roundUpSquaredHalf(i)*roundUpSquaredHalf(i)) % MAXIMUM_SITUATIONS;
+}
+
+unsigned int doubleHashing(unsigned int indexOriginal, unsigned int i, char board[BOARD_WIDTH][BOARD_HEIGHT]) {
+    probingCounter++;
+    return (indexOriginal + secondHashFunction(board)*i) % MAXIMUM_SITUATIONS;
 }

@@ -20,7 +20,7 @@
 #define EMPTY ' '
 #define HASH_MODULO 18
 #define ABS(a) (a < 0 ? -a : a)
-#define PROBING linear
+#define PROBING doubleHashing // linear, quadratic, doubleHashing
 #define GET_STATUS TRUE
 #define NOT_FINISHED 100
 #define MAXIMUM_SITUATIONS_REACHED_EXIT_STATUS 2
@@ -93,7 +93,7 @@ unsigned int getNewIndex(char board[BOARD_WIDTH][BOARD_HEIGHT]) {
     unsigned int i = 1;
 
     while (!database[index].isEmpty) {
-        index = PROBING(indexOriginal, i);
+        index = PROBING(indexOriginal, i, board);
         i++;
     }
 
@@ -111,7 +111,7 @@ unsigned int getBoardIndex(char board[BOARD_WIDTH][BOARD_HEIGHT]) {
 
     while (!database[index].isEmpty && 
            !isSameBoard(board, database[index].board)) {
-        index = PROBING(originalIndex, i);
+        index = PROBING(originalIndex, i, board);
         i++;
 
         if (isSameBoard(board, database[index].board)) {
