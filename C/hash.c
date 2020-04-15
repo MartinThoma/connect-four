@@ -23,7 +23,7 @@ unsigned int getFirstIndex(char board[BOARD_WIDTH][BOARD_HEIGHT]) {
 
     for (int x = 0; x < BOARD_WIDTH; x++) {
         for (int y = 0; y < BOARD_HEIGHT; y++) {
-            index += charToInt(board[x][y]) * 
+            index += charToInt(board[x][y]) *
                      myPow(3, ((x + y * BOARD_WIDTH) % HASH_MODULO));
         }
     }
@@ -37,7 +37,7 @@ unsigned int secondHashFunction(char board[BOARD_WIDTH][BOARD_HEIGHT]) {
 
     for (int y = 0; y < BOARD_HEIGHT; y++) {
         for (int x = 0; x < BOARD_WIDTH; x++) {
-            index += (2-charToInt(board[x][y])) * 
+            index += (2-charToInt(board[x][y])) *
                      myPow(3, ((x + y * BOARD_WIDTH) % HASH_MODULO));
         }
     }

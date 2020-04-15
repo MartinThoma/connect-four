@@ -100,7 +100,7 @@ unsigned int getNewIndex(char board[BOARD_WIDTH][BOARD_HEIGHT]) {
     return index;
 }
 
-/* 
+/*
  * This function returns the index of a board that is already in
  * the situation array. If it is not there, it returns 0.
  */
@@ -109,7 +109,7 @@ unsigned int getBoardIndex(char board[BOARD_WIDTH][BOARD_HEIGHT]) {
     unsigned int index = originalIndex;
     unsigned int i = 1;
 
-    while (!database[index].isEmpty && 
+    while (!database[index].isEmpty &&
            !isSameBoard(board, database[index].board)) {
         index = PROBING(originalIndex, i, board);
         i++;
@@ -120,7 +120,7 @@ unsigned int getBoardIndex(char board[BOARD_WIDTH][BOARD_HEIGHT]) {
     }
 
     // can be both: its not there and its at 0!
-    return isSameBoard(board, database[index].board); 
+    return isSameBoard(board, database[index].board);
 }
 
 /********************************************************************
@@ -194,11 +194,11 @@ int getTokensInRow(char board[BOARD_WIDTH][BOARD_HEIGHT], char color,
 }
 
 /*
- * Check if player has won by placing a disc on (x,y). 
+ * Check if player has won by placing a disc on (x,y).
  * with direction (xDir, yDir)
  * @return 1 iff RED won, -1 iff BLACK won and 0 if nobody won
  */
-signed char hasPlayerWon(char board[BOARD_WIDTH][BOARD_HEIGHT], 
+signed char hasPlayerWon(char board[BOARD_WIDTH][BOARD_HEIGHT],
                   int x, int y, char xDir, char yDir) {
     char color = board[x][y];
 
@@ -219,12 +219,12 @@ signed char hasPlayerWon(char board[BOARD_WIDTH][BOARD_HEIGHT],
     return 0;
 }
 
-/* 
- * A new disc has been dropped. Check if this disc means that 
+/*
+ * A new disc has been dropped. Check if this disc means that
  * somebody won.
  * @return 1 iff RED won, -1 iff BLACK won, otherwise NOT_FINISHED
  */
-int isBoardFinished(char board[BOARD_WIDTH][BOARD_HEIGHT], 
+int isBoardFinished(char board[BOARD_WIDTH][BOARD_HEIGHT],
                     int x, int y) {
     signed char status;
 
@@ -264,7 +264,7 @@ int isBoardFinished(char board[BOARD_WIDTH][BOARD_HEIGHT],
  * Make all possible turns that the player can make in this
  * game situation.
  */
-void makeTurns(char board[BOARD_WIDTH][BOARD_HEIGHT], 
+void makeTurns(char board[BOARD_WIDTH][BOARD_HEIGHT],
     char currentPlayer, unsigned int lastId, int recursion) {
     #if GET_STATUS
         if (recursion < SHOW_RECURSION_LEVEL) {
@@ -351,7 +351,7 @@ void makeTurns(char board[BOARD_WIDTH][BOARD_HEIGHT],
                         }
                     }
 
-                    makeTurns(copy, currentPlayer, insertID, 
+                    makeTurns(copy, currentPlayer, insertID,
                               recursion + 1);
                 }
             }

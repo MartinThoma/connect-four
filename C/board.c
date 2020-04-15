@@ -1,4 +1,4 @@
-char isSameBoard(char a[BOARD_WIDTH][BOARD_HEIGHT], 
+char isSameBoard(char a[BOARD_WIDTH][BOARD_HEIGHT],
                  char b[BOARD_WIDTH][BOARD_HEIGHT]) {
     for (int x = 0; x < BOARD_WIDTH; x++) {
         for (int y = 0; y < BOARD_HEIGHT; y++) {
